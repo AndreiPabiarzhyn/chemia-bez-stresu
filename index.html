@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f6f2e8">
+  <title>Chemia bez stresu — плотность</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="#lesson" data-go="lesson" aria-label="На главную">
+      <span class="brand-mark">C</span>
+      <span><strong>Chemia bez stresu</strong><small data-i18n="tagline">7 klasa · объяснения по-русски</small></span>
+    </a>
+    <nav aria-label="Разделы">
+      <button class="nav-link active" data-view="lesson" data-i18n="navLesson">Урок</button>
+      <button class="nav-link" data-view="practice" data-i18n="navPractice">Тренажёр</button>
+      <button class="nav-link" data-view="words" data-i18n="navWords">Словарь</button>
+    </nav>
+    <div class="language-switch" aria-label="Language / Язык">
+      <button class="active" data-lang="ru">RU</button><button data-lang="pl">PL</button>
+    </div>
+  </header>
+
+  <main>
+    <section id="lesson" class="view active" aria-labelledby="lesson-title">
+      <div class="hero">
+        <div class="hero-copy">
+          <span class="eyebrow" data-i18n="topic">ТЕМА 01 · GĘSTOŚĆ</span>
+          <h1 id="lesson-title" data-i18n-html="heroTitle">Плотность — это<br><em>насколько тесно</em><br>упаковано вещество</h1>
+          <p data-i18n="heroText">Без заучивания формулы вслепую. Сначала поймём смысл, потом научимся решать задачи из польского учебника.</p>
+          <button class="primary" data-go="practice"><span data-i18n="tryTask">Попробовать задачу</span> <span>→</span></button>
+        </div>
+        <div class="density-demo" aria-label="Наглядное сравнение плотности">
+          <span class="demo-label" data-i18n="sameVolume">одинаковый объём</span>
+          <div class="demo-card light">
+            <div class="cube" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+            <strong data-i18n="lowDensity">Mała gęstość</strong>
+            <span data-i18n="particlesLoose">частицы расположены свободно</span>
+          </div>
+          <div class="demo-card dense">
+            <div class="cube" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+            <strong data-i18n="highDensity">Duża gęstość</strong>
+            <span data-i18n="particlesDense">частиц в том же объёме больше</span>
+          </div>
+        </div>
+      </div>
+
+      <article class="explain-grid">
+        <section class="paper-card meaning">
+          <span class="card-number">01</span>
+          <h2 data-i18n="meaningTitle">Что означает 2,7 g/cm³?</h2>
+          <p data-i18n-html="meaningText">Представь кубик со стороной 1 см. Если он сделан из алюминия, то весит <b>2,7 грамма</b>.</p>
+          <div class="mini-cube"><span>1 cm³</span></div>
+          <div class="equals">= <b>2,7 g</b></div>
+        </section>
+
+        <section class="paper-card recipe">
+          <span class="card-number">02</span>
+          <h2 data-i18n="howTitle">Как найти плотность?</h2>
+          <p data-i18n="howText">Узнай, сколько граммов приходится на каждый 1 cm³:</p>
+          <div class="formula"><span data-i18n="mass">масса</span><i></i><span data-i18n="volume">объём</span></div>
+          <p class="note" data-i18n-html="polishFormula">По-польски: <b>gęstość = masa : objętość</b></p>
+        </section>
+
+        <section class="paper-card example">
+          <span class="card-number">03</span>
+          <h2 data-i18n="stepsTitle">Разберём по шагам</h2>
+          <p class="polish">Masa klocka wynosi <b>540 g</b>, a objętość <b>200 cm³</b>. Oblicz gęstość.</p>
+          <ol>
+            <li><span data-i18n="stepDivide">Делим массу на объём</span><b>540 : 200</b></li>
+            <li><span data-i18n="stepSimplify">Упрощаем</span><b>54 : 20</b></li>
+            <li><span data-i18n="stepResult">Получаем</span><b>2,7 g/cm³</b></li>
+          </ol>
+          <div class="check" data-i18n="exampleCheck">Проверка: 2,7 × 200 = 540 ✓</div>
+        </section>
+      </article>
+
+      <section class="rule-strip">
+        <strong data-i18n="unitsWarning">Перед решением проверь единицы</strong>
+        <span>1 kg = 1000 g</span>
+        <span>1 dm³ = 1000 cm³</span>
+        <button data-go="practice" data-i18n="practiceLink">Закрепить →</button>
+      </section>
+    </section>
+
+    <section id="practice" class="view" aria-labelledby="practice-title">
+      <div class="section-heading">
+        <div><span class="eyebrow" data-i18n="miniTrainer">МИНИ-ТРЕНАЖЁР</span><h1 id="practice-title" data-i18n="practiceTitle">Решаем по одному шагу</h1></div>
+        <div class="score"><span data-i18n="correctLabel">Правильно</span><strong id="scoreValue">0 / 0</strong></div>
+      </div>
+
+      <div class="practice-layout">
+        <article class="task-card">
+          <div class="task-top"><span id="taskType">Найди плотность</span><small id="taskNumber">Задание 1</small></div>
+          <p id="taskText" class="task-text"></p>
+          <div id="knownValues" class="known-values"></div>
+          <label class="answer-label" for="answerInput" data-i18n="yourAnswer">Твой ответ</label>
+          <div class="answer-row">
+            <input id="answerInput" inputmode="decimal" autocomplete="off" placeholder="Например: 2,7">
+            <span id="answerUnit"></span>
+            <button id="checkButton" class="primary" data-i18n="checkButton">Проверить</button>
+          </div>
+          <div class="task-actions">
+            <button id="hintButton" class="text-button" data-i18n="showHint">Показать подсказку</button>
+            <button id="nextButton" class="text-button" hidden data-i18n="nextTask">Следующая задача →</button>
+          </div>
+          <div id="feedback" class="feedback" aria-live="polite"></div>
+        </article>
+
+        <aside class="helper-card">
+          <span class="eyebrow" data-i18n="cheatsheet">ШПАРГАЛКА</span>
+          <h2 data-i18n="whatFind">Что ищем?</h2>
+          <div class="triangle" aria-label="Треугольник формул">
+            <b>m</b><span>ρ</span><span>V</span>
+          </div>
+          <ul>
+            <li><b>ρ = m : V</b><span data-i18n="density">плотность</span></li>
+            <li><b>m = ρ × V</b><span data-i18n="mass">масса</span></li>
+            <li><b>V = m : ρ</b><span data-i18n="volume">объём</span></li>
+          </ul>
+          <p data-i18n-html="notationNote">В польских задачах плотность иногда обозначают буквой <b>d</b>, а иногда греческой буквой <b>ρ</b>.</p>
+        </aside>
+      </div>
+    </section>
+
+    <section id="words" class="view" aria-labelledby="words-title">
+      <div class="section-heading">
+        <div><span class="eyebrow" data-i18n="dictionaryDirection">POLSKI → РУССКИЙ</span><h1 id="words-title" data-i18n="wordsTitle">Слова, которые встречаются в задачах</h1></div>
+      </div>
+      <div class="word-grid">
+        <article><span>gęstość</span><strong>плотность</strong><small>гэнстощь</small></article>
+        <article><span>masa</span><strong>масса</strong><small>маса</small></article>
+        <article><span>objętość</span><strong>объём</strong><small>объентощь</small></article>
+        <article><span>oblicz</span><strong>вычисли</strong><small>облич</small></article>
+        <article><span>wynosi</span><strong>составляет</strong><small>выноси</small></article>
+        <article><span>substancja</span><strong>вещество</strong><small>субстанция</small></article>
+        <article><span>przedmiot</span><strong>предмет</strong><small>пшедмёт</small></article>
+        <article><span>sześcian</span><strong>куб</strong><small>шещчан</small></article>
+      </div>
+      <article class="sentence-card">
+        <span class="eyebrow" data-i18n="sentenceLabel">РАЗБЕРИ ПРЕДЛОЖЕНИЕ</span>
+        <p><mark>Masa</mark> przedmiotu <mark>wynosi</mark> 780 g. <mark>Oblicz objętość</mark>.</p>
+        <p class="translation">Масса предмета составляет 780 г. Вычисли объём.</p>
+      </article>
+    </section>
+  </main>
+
+  <footer><span>Chemia bez stresu</span><span data-i18n="footerText">Материал для 7 класса польской школы</span></footer>
+  <script src="app.js"></script>
+</body>
+</html>

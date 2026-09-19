@@ -1,0 +1,10 @@
+{
+  "name": "chemia-bez-stresu",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Мини-тренажёр по химии для 7 класса польской школы",
+  "scripts": {
+    "test": "node --test",
+    "start": "python -m http.server 8080"
+  }
+}
