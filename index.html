@@ -23,6 +23,7 @@
     <nav aria-label="Разделы" data-i18n-aria="sectionNavLabel">
       <button class="nav-link active" data-view="lesson" data-i18n="navLesson">Урок</button>
       <button class="nav-link" data-view="practice" data-i18n="navPractice">Тренажёр</button>
+      <button class="nav-link" data-view="help" data-i18n="navHelp">Помоги разобраться</button>
       <button class="nav-link" data-view="words" data-i18n="navWords">Словарь</button>
     </nav>
     <div class="language-switch" aria-label="Language / Язык">
@@ -100,6 +101,34 @@
         <span>1 dm³ = 1000 cm³</span>
         <button data-go="practice" data-i18n="practiceLink">Закрепить →</button>
       </section>
+    </section>
+
+    <section id="help" class="view" aria-labelledby="help-title">
+      <div class="section-heading">
+        <div><span class="eyebrow" data-i18n="helpEyebrow">ЭКСПЕРИМЕНТАЛЬНЫЙ РЕЖИМ</span><h1 id="help-title" data-i18n="helpTitle">Помоги разобраться</h1></div>
+        <div class="ai-status"><span class="status-dot"></span><span id="aiStatusText" data-i18n="localOnlyStatus">локальный режим</span></div>
+      </div>
+      <div class="ai-layout">
+        <article class="ai-card">
+          <div class="ai-intro"><div class="assistant-avatar">C</div><div><strong data-i18n="assistantName">Спокойный помощник</strong><p data-i18n="assistantIntro">Пришли условие — я помогу найти первый шаг, а не просто выдам ответ.</p></div></div>
+          <form id="helpForm">
+            <label class="answer-label" for="helpQuestion" data-i18n="questionLabel">Условие или свой ход решения</label>
+            <textarea id="helpQuestion" rows="7" data-i18n-placeholder="questionPlaceholder" placeholder="Например: Masa wynosi 780 g, gęstość 7,8 g/cm³. Я не понимаю, как найти объём."></textarea>
+            <div class="help-options">
+              <label><span data-i18n="helpModeLabel">Как помочь</span><select id="helpMode"><option value="first" data-i18n="modeFirst">Только первый шаг</option><option value="hint" data-i18n="modeHint">Подсказка без ответа</option><option value="full" data-i18n="modeFull">Полный разбор</option></select></label>
+              <label><span data-i18n="helpTopicLabel">Тема</span><select id="helpTopic"><option value="density" data-i18n="densityTopic">Плотность / Gęstość</option><option value="general" data-i18n="generalTopic">Другая тема</option></select></label>
+            </div>
+            <button class="primary help-submit" type="submit"><span data-i18n="askButton">Помоги с этим</span><span>→</span></button>
+          </form>
+          <div id="helpFeedback" class="help-feedback" aria-live="polite"></div>
+        </article>
+        <aside class="helper-card ai-guide">
+          <span class="eyebrow" data-i18n="goodQuestion">ХОРОШИЙ ЗАПРОС</span>
+          <h2 data-i18n="goodQuestionTitle">Что написать?</h2>
+          <ul class="question-tips"><li data-i18n="tipOne">Само условие задачи</li><li data-i18n="tipTwo">Что уже получилось</li><li data-i18n="tipThree">На каком шаге стало непонятно</li></ul>
+          <div class="ai-note"><b data-i18n="aiNoteTitle">Важно</b><p data-i18n="aiNoteText">Сейчас это локальный эксперимент. Фото задач подключим после проверки текстового режима.</p></div>
+        </aside>
+      </div>
     </section>
 
     <section id="practice" class="view" aria-labelledby="practice-title">

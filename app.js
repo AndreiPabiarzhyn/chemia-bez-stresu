@@ -43,6 +43,13 @@
     pl: { pageTitle:'Chemia bez stresu — gęstość',currentTopicLabel:'Aktualny temat',currentTopic:'Gęstość',sectionNavLabel:'Części tematu',courseMap:'MAPA KURSU',chooseTopic:'Wybierz temat',close:'Zamknij',topicPanelIntro:'Tematy są ułożone w kolejności nauki. Do ukończonych lekcji można zawsze wrócić.',available:'Otwórz',soon:'Wkrótce',tagline:'7 klasa · proste wyjaśnienia',navLesson:'Lekcja',navPractice:'Ćwiczenia',navWords:'Słownik',topic:'TEMAT 01 · GĘSTOŚĆ',heroTitle:'Gęstość mówi,<br><em>jak ciasno</em><br>ułożona jest materia',heroText:'Bez uczenia się wzoru na pamięć. Najpierw zrozumiemy sens, potem rozwiążemy zadania krok po kroku.',tryTask:'Spróbuj zadania',sameVolume:'ta sama objętość',lowDensity:'Mała gęstość',particlesLoose:'cząsteczki są ułożone luźno',highDensity:'Duża gęstość',particlesDense:'więcej cząsteczek w tej samej objętości',meaningTitle:'Co oznacza 2,7 g/cm³?',meaningText:'Wyobraź sobie kostkę o boku 1 cm. Jeżeli jest z aluminium, waży <b>2,7 grama</b>.',howTitle:'Jak obliczyć gęstość?',howText:'Sprawdź, ile gramów przypada na każdy 1 cm³:',mass:'masa',volume:'objętość',density:'gęstość',polishFormula:'Wzór: <b>gęstość = masa : objętość</b>',stepsTitle:'Rozwiązanie krok po kroku',stepDivide:'Dzielimy masę przez objętość',stepSimplify:'Upraszczamy',stepResult:'Otrzymujemy',exampleCheck:'Sprawdzenie: 2,7 × 200 = 540 ✓',unitsWarning:'Przed rozwiązaniem sprawdź jednostki',practiceLink:'Poćwicz →',miniTrainer:'MINI TRENAŻER',practiceTitle:'Rozwiązuj krok po kroku',correctLabel:'Poprawne',yourAnswer:'Twoja odpowiedź',checkButton:'Sprawdź',showHint:'Pokaż wskazówkę',nextTask:'Następne zadanie →',cheatsheet:'ŚCIĄGA',whatFind:'Czego szukamy?',notationNote:'W zadaniach gęstość może być oznaczona literą <b>d</b> albo grecką literą <b>ρ</b>.',dictionaryDirection:'POLSKI → ROSYJSKI',wordsTitle:'Słowa spotykane w zadaniach',sentenceLabel:'PRZEANALIZUJ ZDANIE',footerText:'Materiał dla 7 klasy polskiej szkoły',taskNumber:n=>`Zadanie ${n} z ${tasks.length}`,placeholder:'Na przykład: 2,7',invalid:'Wpisz tylko liczbę. Możesz użyć przecinka, na przykład 2,7.',right:'Dobrze!',wrong:'Jeszcze nie.',hintLabel:'Wskazówka:'}
   };
 
+  const uiTranslations = {
+    ru: { navHelp:'Помоги разобраться',helpEyebrow:'ЭКСПЕРИМЕНТАЛЬНЫЙ РЕЖИМ',helpTitle:'Помоги разобраться',localOnlyStatus:'локальный режим',assistantName:'Спокойный помощник',assistantIntro:'Пришли условие — я помогу найти первый шаг, а не просто выдам ответ.',questionLabel:'Условие или свой ход решения',questionPlaceholder:'Например: Masa wynosi 780 g, gęstość 7,8 g/cm³. Я не понимаю, как найти объём.',helpModeLabel:'Как помочь',modeFirst:'Только первый шаг',modeHint:'Подсказка без ответа',modeFull:'Полный разбор',helpTopicLabel:'Тема',densityTopic:'Плотность / Gęstość',generalTopic:'Другая тема',askButton:'Помоги с этим',goodQuestion:'ХОРОШИЙ ЗАПРОС',goodQuestionTitle:'Что написать?',tipOne:'Само условие задачи',tipTwo:'Что уже получилось',tipThree:'На каком шаге стало непонятно',aiNoteTitle:'Важно',aiNoteText:'Сейчас это локальный эксперимент. Фото задач подключим после проверки текстового режима.' },
+    pl: { navHelp:'Pomóż mi zrozumieć',helpEyebrow:'TRYB EKSPERYMENTALNY',helpTitle:'Pomóż mi zrozumieć',localOnlyStatus:'tryb lokalny',assistantName:'Spokojny pomocnik',assistantIntro:'Wyślij treść zadania — pomogę znaleźć pierwszy krok, zamiast od razu podawać odpowiedź.',questionLabel:'Treść zadania lub Twój sposób rozwiązania',questionPlaceholder:'Na przykład: Masa wynosi 780 g, gęstość 7,8 g/cm³. Nie wiem, jak obliczyć objętość.',helpModeLabel:'Jak pomóc',modeFirst:'Tylko pierwszy krok',modeHint:'Wskazówka bez odpowiedzi',modeFull:'Pełne rozwiązanie',helpTopicLabel:'Temat',densityTopic:'Gęstość / Плотность',generalTopic:'Inny temat',askButton:'Pomóż z tym',goodQuestion:'DOBRE PYTANIE',goodQuestionTitle:'Co napisać?',tipOne:'Treść zadania',tipTwo:'Co już udało Ci się zrobić',tipThree:'W którym miejscu pojawił się problem',aiNoteTitle:'Ważne',aiNoteText:'To lokalny eksperyment. Zdjęcia zadań dodamy po sprawdzeniu trybu tekstowego.' }
+  };
+
+  const aiModeLabels = { ru: 'ИИ подключён', pl: 'AI jest podłączone' };
+
   function parseAnswer(value) {
     const normalized = String(value).trim().replace(',', '.').replace(/\s+/g, '');
     if (!normalized || !/^-?\d+(\.\d+)?$/.test(normalized)) return NaN;
@@ -56,10 +63,10 @@
 
   function init() {
     const $ = id => document.getElementById(id);
-    let index = 0, correct = 0, attempted = 0, answered = false;
+    let index = 0, correct = 0, attempted = 0, answered = false, backendMode = 'local';
     let lang = localStorage.getItem('chemia-lang') || 'ru';
 
-    function t(key) { return translations[lang][key]; }
+    function t(key) { return translations[lang][key] ?? uiTranslations[lang][key]; }
 
     function applyLanguage() {
       document.documentElement.lang = lang;
@@ -67,10 +74,23 @@
       document.querySelectorAll('[data-i18n]').forEach(node => { const value = t(node.dataset.i18n); if (typeof value === 'string') node.textContent = value; });
       document.querySelectorAll('[data-i18n-html]').forEach(node => { const value = t(node.dataset.i18nHtml); if (typeof value === 'string') node.innerHTML = value; });
       document.querySelectorAll('[data-i18n-aria]').forEach(node => { const value = t(node.dataset.i18nAria); if (typeof value === 'string') node.setAttribute('aria-label', value); });
+      document.querySelectorAll('[data-i18n-placeholder]').forEach(node => { const value = t(node.dataset.i18nPlaceholder); if (typeof value === 'string') node.placeholder = value; });
       document.querySelectorAll('[data-lang]').forEach(button => button.classList.toggle('active', button.dataset.lang === lang));
       $('answerInput').placeholder = t('placeholder');
+      $('aiStatusText').textContent = backendMode === 'ai' ? aiModeLabels[lang] : t('localOnlyStatus');
+      $('helpFeedback').textContent = '';
       renderTopicList();
       renderTask();
+    }
+
+    async function refreshAiStatus() {
+      try {
+        const response = await fetch('/api/health');
+        const data = await response.json();
+        backendMode = data.mode === 'ai' ? 'ai' : 'local';
+        $('aiStatusText').textContent = backendMode === 'ai' ? aiModeLabels[lang] : t('localOnlyStatus');
+        $('aiStatusText').previousElementSibling.style.background = backendMode === 'ai' ? 'var(--green)' : 'var(--yellow)';
+      } catch { backendMode = 'local'; }
     }
 
     function renderTopicList() {
@@ -168,7 +188,40 @@
       $('feedback').innerHTML = `<b>${t('hintLabel')}</b> ${lang === 'pl' ? tasks[index].hintPl : tasks[index].hint}`;
     });
     $('nextButton').addEventListener('click', () => { index = (index + 1) % tasks.length; renderTask(); $('answerInput').focus(); });
+    $('helpForm').addEventListener('submit', async event => {
+      event.preventDefault();
+      const question = $('helpQuestion').value.trim();
+      if (!question) {
+        $('helpFeedback').className = 'help-feedback error';
+        $('helpFeedback').textContent = lang === 'pl' ? 'Najpierw wpisz treść zadania.' : 'Сначала напиши условие задачи.';
+        $('helpQuestion').focus();
+        return;
+      }
+      const feedback = $('helpFeedback');
+      feedback.className = 'help-feedback';
+      feedback.innerHTML = `<p>${lang === 'pl' ? 'Chwilę, czytam zadanie…' : 'Секунду, читаю задачу…'}</p>`;
+      const button = document.querySelector('.help-submit');
+      button.disabled = true;
+      try {
+        const response = await fetch('/api/help', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ question, lang, mode: $('helpMode').value, topic: $('helpTopic').value }) });
+        const data = await response.json();
+        if (!response.ok || !data.ok) throw new Error(data.error || 'help_failed');
+        feedback.innerHTML = `<p><b>${data.source === 'ai' ? (lang === 'pl' ? 'AI:' : 'ИИ:') : (lang === 'pl' ? 'Lokalna wskazówka:' : 'Локальная подсказка:')}</b></p>${formatHelpText(data.text)}`;
+      } catch (error) {
+        feedback.className = 'help-feedback error';
+        feedback.innerHTML = `<p><b>${lang === 'pl' ? 'Nie udało się uzyskać odpowiedzi.' : 'Не получилось получить ответ.'}</b></p><p>${lang === 'pl' ? 'Sprawdź, czy lokalny serwer działa.' : 'Проверь, запущен ли локальный сервер.'}</p>`;
+      } finally { button.disabled = false; }
+    });
+
+    function formatHelpText(text) {
+      return String(text).split(/\n{2,}/).map(paragraph => `<p>${escapeHtml(paragraph).replace(/\n/g, '<br>')}</p>`).join('');
+    }
+
+    function escapeHtml(text) {
+      return String(text).replace(/[&<>"']/g, character => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[character]));
+    }
     applyLanguage();
+    refreshAiStatus();
   }
 
   if (typeof document !== 'undefined') document.addEventListener('DOMContentLoaded', init);
