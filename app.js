@@ -14,9 +14,33 @@
     { type: 'volume', title: 'Найди объём', titlePl: 'Oblicz objętość', text: 'Masa przedmiotu wynosi 540 g, a jego gęstość 2,7 g/cm³. Oblicz objętość.', values: ['m = 540 g', 'ρ = 2,7 g/cm³'], answer: 200, unit: 'cm³', hint: 'Раздели всю массу на то, сколько весит 1 cm³: 540 : 2,7.', hintPl: 'Podziel całą masę przez masę 1 cm³: 540 : 2,7.', solution: '540 : 2,7 = 200 cm³.', solutionPl: '540 : 2,7 = 200 cm³.' }
   ];
 
+  const topicGroups = [
+    {
+      titleRu: 'Вещества и их свойства', titlePl: 'Substancje i ich właściwości',
+      topics: [
+        { id: 'density', number: '01', titleRu: 'Плотность', titlePl: 'Gęstość', noteRu: 'Масса, объём и единицы', notePl: 'Masa, objętość i jednostki', available: true },
+        { id: 'states', number: '02', titleRu: 'Агрегатные состояния', titlePl: 'Stany skupienia', noteRu: 'Твёрдое, жидкое, газ', notePl: 'Ciało stałe, ciecz, gaz' }
+      ]
+    },
+    {
+      titleRu: 'Строение вещества', titlePl: 'Budowa materii',
+      topics: [
+        { id: 'atoms', number: '03', titleRu: 'Атомы и молекулы', titlePl: 'Atomy i cząsteczki', noteRu: 'Из чего состоит вещество', notePl: 'Z czego składa się materia' },
+        { id: 'elements', number: '04', titleRu: 'Химические элементы', titlePl: 'Pierwiastki chemiczne', noteRu: 'Символы и таблица', notePl: 'Symbole i układ okresowy' }
+      ]
+    },
+    {
+      titleRu: 'Химические превращения', titlePl: 'Przemiany chemiczne',
+      topics: [
+        { id: 'reactions', number: '05', titleRu: 'Химические реакции', titlePl: 'Reakcje chemiczne', noteRu: 'Признаки и запись реакций', notePl: 'Objawy i zapis reakcji' },
+        { id: 'equations', number: '06', titleRu: 'Уравнения реакций', titlePl: 'Równania reakcji', noteRu: 'Коэффициенты и баланс', notePl: 'Współczynniki i bilans' }
+      ]
+    }
+  ];
+
   const translations = {
-    ru: { tagline:'7 klasa · объяснения по-русски',navLesson:'Урок',navPractice:'Тренажёр',navWords:'Словарь',topic:'ТЕМА 01 · GĘSTOŚĆ',heroTitle:'Плотность — это<br><em>насколько тесно</em><br>упаковано вещество',heroText:'Без заучивания формулы вслепую. Сначала поймём смысл, потом научимся решать задачи из польского учебника.',tryTask:'Попробовать задачу',sameVolume:'одинаковый объём',lowDensity:'Mała gęstość',particlesLoose:'частицы расположены свободно',highDensity:'Duża gęstość',particlesDense:'частиц в том же объёме больше',meaningTitle:'Что означает 2,7 g/cm³?',meaningText:'Представь кубик со стороной 1 см. Если он сделан из алюминия, то весит <b>2,7 грамма</b>.',howTitle:'Как найти плотность?',howText:'Узнай, сколько граммов приходится на каждый 1 cm³:',mass:'масса',volume:'объём',density:'плотность',polishFormula:'По-польски: <b>gęstość = masa : objętość</b>',stepsTitle:'Разберём по шагам',stepDivide:'Делим массу на объём',stepSimplify:'Упрощаем',stepResult:'Получаем',exampleCheck:'Проверка: 2,7 × 200 = 540 ✓',unitsWarning:'Перед решением проверь единицы',practiceLink:'Закрепить →',miniTrainer:'МИНИ-ТРЕНАЖЁР',practiceTitle:'Решаем по одному шагу',correctLabel:'Правильно',yourAnswer:'Твой ответ',checkButton:'Проверить',showHint:'Показать подсказку',nextTask:'Следующая задача →',cheatsheet:'ШПАРГАЛКА',whatFind:'Что ищем?',notationNote:'В польских задачах плотность иногда обозначают буквой <b>d</b>, а иногда греческой буквой <b>ρ</b>.',dictionaryDirection:'POLSKI → РУССКИЙ',wordsTitle:'Слова, которые встречаются в задачах',sentenceLabel:'РАЗБЕРИ ПРЕДЛОЖЕНИЕ',footerText:'Материал для 7 класса польской школы',taskNumber:n=>`Задание ${n} из ${tasks.length}`,placeholder:'Например: 2,7',invalid:'Введи только число. Можно использовать запятую: например, 2,7.',right:'Верно!',wrong:'Пока нет.',hintLabel:'Подсказка:'},
-    pl: { tagline:'7 klasa · proste wyjaśnienia',navLesson:'Lekcja',navPractice:'Ćwiczenia',navWords:'Słownik',topic:'TEMAT 01 · GĘSTOŚĆ',heroTitle:'Gęstość mówi,<br><em>jak ciasno</em><br>ułożona jest materia',heroText:'Bez uczenia się wzoru na pamięć. Najpierw zrozumiemy sens, potem rozwiążemy zadania krok po kroku.',tryTask:'Spróbuj zadania',sameVolume:'ta sama objętość',lowDensity:'Mała gęstość',particlesLoose:'cząsteczki są ułożone luźno',highDensity:'Duża gęstość',particlesDense:'więcej cząsteczek w tej samej objętości',meaningTitle:'Co oznacza 2,7 g/cm³?',meaningText:'Wyobraź sobie kostkę o boku 1 cm. Jeżeli jest z aluminium, waży <b>2,7 grama</b>.',howTitle:'Jak obliczyć gęstość?',howText:'Sprawdź, ile gramów przypada na każdy 1 cm³:',mass:'masa',volume:'objętość',density:'gęstość',polishFormula:'Wzór: <b>gęstość = masa : objętość</b>',stepsTitle:'Rozwiązanie krok po kroku',stepDivide:'Dzielimy masę przez objętość',stepSimplify:'Upraszczamy',stepResult:'Otrzymujemy',exampleCheck:'Sprawdzenie: 2,7 × 200 = 540 ✓',unitsWarning:'Przed rozwiązaniem sprawdź jednostki',practiceLink:'Poćwicz →',miniTrainer:'MINI TRENAŻER',practiceTitle:'Rozwiązuj krok po kroku',correctLabel:'Poprawne',yourAnswer:'Twoja odpowiedź',checkButton:'Sprawdź',showHint:'Pokaż wskazówkę',nextTask:'Następne zadanie →',cheatsheet:'ŚCIĄGA',whatFind:'Czego szukamy?',notationNote:'W zadaniach gęstość może być oznaczona literą <b>d</b> albo grecką literą <b>ρ</b>.',dictionaryDirection:'POLSKI → ROSYJSKI',wordsTitle:'Słowa spotykane w zadaniach',sentenceLabel:'PRZEANALIZUJ ZDANIE',footerText:'Materiał dla 7 klasy polskiej szkoły',taskNumber:n=>`Zadanie ${n} z ${tasks.length}`,placeholder:'Na przykład: 2,7',invalid:'Wpisz tylko liczbę. Możesz użyć przecinka, na przykład 2,7.',right:'Dobrze!',wrong:'Jeszcze nie.',hintLabel:'Wskazówka:'}
+    ru: { pageTitle:'Chemia bez stresu — плотность',currentTopicLabel:'Текущая тема',currentTopic:'Плотность',sectionNavLabel:'Части темы',courseMap:'КАРТА КУРСА',chooseTopic:'Выбери тему',close:'Закрыть',topicPanelIntro:'Темы расположены в порядке изучения. Пройденные уроки всегда можно открыть снова.',available:'Открыть',soon:'Скоро',tagline:'7 klasa · объяснения по-русски',navLesson:'Урок',navPractice:'Тренажёр',navWords:'Словарь',topic:'ТЕМА 01 · GĘSTOŚĆ',heroTitle:'Плотность — это<br><em>насколько тесно</em><br>упаковано вещество',heroText:'Без заучивания формулы вслепую. Сначала поймём смысл, потом научимся решать задачи из польского учебника.',tryTask:'Попробовать задачу',sameVolume:'одинаковый объём',lowDensity:'Mała gęstość',particlesLoose:'частицы расположены свободно',highDensity:'Duża gęstość',particlesDense:'частиц в том же объёме больше',meaningTitle:'Что означает 2,7 g/cm³?',meaningText:'Представь кубик со стороной 1 см. Если он сделан из алюминия, то весит <b>2,7 грамма</b>.',howTitle:'Как найти плотность?',howText:'Узнай, сколько граммов приходится на каждый 1 cm³:',mass:'масса',volume:'объём',density:'плотность',polishFormula:'По-польски: <b>gęstość = masa : objętość</b>',stepsTitle:'Разберём по шагам',stepDivide:'Делим массу на объём',stepSimplify:'Упрощаем',stepResult:'Получаем',exampleCheck:'Проверка: 2,7 × 200 = 540 ✓',unitsWarning:'Перед решением проверь единицы',practiceLink:'Закрепить →',miniTrainer:'МИНИ-ТРЕНАЖЁР',practiceTitle:'Решаем по одному шагу',correctLabel:'Правильно',yourAnswer:'Твой ответ',checkButton:'Проверить',showHint:'Показать подсказку',nextTask:'Следующая задача →',cheatsheet:'ШПАРГАЛКА',whatFind:'Что ищем?',notationNote:'В польских задачах плотность иногда обозначают буквой <b>d</b>, а иногда греческой буквой <b>ρ</b>.',dictionaryDirection:'POLSKI → РУССКИЙ',wordsTitle:'Слова, которые встречаются в задачах',sentenceLabel:'РАЗБЕРИ ПРЕДЛОЖЕНИЕ',footerText:'Материал для 7 класса польской школы',taskNumber:n=>`Задание ${n} из ${tasks.length}`,placeholder:'Например: 2,7',invalid:'Введи только число. Можно использовать запятую: например, 2,7.',right:'Верно!',wrong:'Пока нет.',hintLabel:'Подсказка:'},
+    pl: { pageTitle:'Chemia bez stresu — gęstość',currentTopicLabel:'Aktualny temat',currentTopic:'Gęstość',sectionNavLabel:'Części tematu',courseMap:'MAPA KURSU',chooseTopic:'Wybierz temat',close:'Zamknij',topicPanelIntro:'Tematy są ułożone w kolejności nauki. Do ukończonych lekcji można zawsze wrócić.',available:'Otwórz',soon:'Wkrótce',tagline:'7 klasa · proste wyjaśnienia',navLesson:'Lekcja',navPractice:'Ćwiczenia',navWords:'Słownik',topic:'TEMAT 01 · GĘSTOŚĆ',heroTitle:'Gęstość mówi,<br><em>jak ciasno</em><br>ułożona jest materia',heroText:'Bez uczenia się wzoru na pamięć. Najpierw zrozumiemy sens, potem rozwiążemy zadania krok po kroku.',tryTask:'Spróbuj zadania',sameVolume:'ta sama objętość',lowDensity:'Mała gęstość',particlesLoose:'cząsteczki są ułożone luźno',highDensity:'Duża gęstość',particlesDense:'więcej cząsteczek w tej samej objętości',meaningTitle:'Co oznacza 2,7 g/cm³?',meaningText:'Wyobraź sobie kostkę o boku 1 cm. Jeżeli jest z aluminium, waży <b>2,7 grama</b>.',howTitle:'Jak obliczyć gęstość?',howText:'Sprawdź, ile gramów przypada na każdy 1 cm³:',mass:'masa',volume:'objętość',density:'gęstość',polishFormula:'Wzór: <b>gęstość = masa : objętość</b>',stepsTitle:'Rozwiązanie krok po kroku',stepDivide:'Dzielimy masę przez objętość',stepSimplify:'Upraszczamy',stepResult:'Otrzymujemy',exampleCheck:'Sprawdzenie: 2,7 × 200 = 540 ✓',unitsWarning:'Przed rozwiązaniem sprawdź jednostki',practiceLink:'Poćwicz →',miniTrainer:'MINI TRENAŻER',practiceTitle:'Rozwiązuj krok po kroku',correctLabel:'Poprawne',yourAnswer:'Twoja odpowiedź',checkButton:'Sprawdź',showHint:'Pokaż wskazówkę',nextTask:'Następne zadanie →',cheatsheet:'ŚCIĄGA',whatFind:'Czego szukamy?',notationNote:'W zadaniach gęstość może być oznaczona literą <b>d</b> albo grecką literą <b>ρ</b>.',dictionaryDirection:'POLSKI → ROSYJSKI',wordsTitle:'Słowa spotykane w zadaniach',sentenceLabel:'PRZEANALIZUJ ZDANIE',footerText:'Materiał dla 7 klasy polskiej szkoły',taskNumber:n=>`Zadanie ${n} z ${tasks.length}`,placeholder:'Na przykład: 2,7',invalid:'Wpisz tylko liczbę. Możesz użyć przecinka, na przykład 2,7.',right:'Dobrze!',wrong:'Jeszcze nie.',hintLabel:'Wskazówka:'}
   };
 
   function parseAnswer(value) {
@@ -39,11 +63,47 @@
 
     function applyLanguage() {
       document.documentElement.lang = lang;
+      document.title = t('pageTitle');
       document.querySelectorAll('[data-i18n]').forEach(node => { const value = t(node.dataset.i18n); if (typeof value === 'string') node.textContent = value; });
       document.querySelectorAll('[data-i18n-html]').forEach(node => { const value = t(node.dataset.i18nHtml); if (typeof value === 'string') node.innerHTML = value; });
+      document.querySelectorAll('[data-i18n-aria]').forEach(node => { const value = t(node.dataset.i18nAria); if (typeof value === 'string') node.setAttribute('aria-label', value); });
       document.querySelectorAll('[data-lang]').forEach(button => button.classList.toggle('active', button.dataset.lang === lang));
       $('answerInput').placeholder = t('placeholder');
+      renderTopicList();
       renderTask();
+    }
+
+    function renderTopicList() {
+      $('topicList').innerHTML = topicGroups.map(group => {
+        const groupTitle = lang === 'pl' ? group.titlePl : group.titleRu;
+        const items = group.topics.map(topic => {
+          const title = lang === 'pl' ? topic.titlePl : topic.titleRu;
+          const note = lang === 'pl' ? topic.notePl : topic.noteRu;
+          const current = topic.id === 'density';
+          return `<button class="topic-item${current ? ' current' : ''}" data-topic="${topic.id}" ${topic.available ? '' : 'disabled'}>
+            <span class="topic-number">${topic.number}</span>
+            <span class="topic-copy"><strong>${title}</strong><small>${note}</small></span>
+            <span class="topic-status">${topic.available ? t('available') : t('soon')}</span>
+          </button>`;
+        }).join('');
+        return `<section class="topic-group"><h3 class="topic-group-title">${groupTitle}</h3><div class="topic-items">${items}</div></section>`;
+      }).join('');
+      $('topicList').querySelectorAll('[data-topic]:not(:disabled)').forEach(button => button.addEventListener('click', () => { closeTopicMenu(); switchView('lesson'); }));
+    }
+
+    function openTopicMenu() {
+      $('topicPanel').hidden = false;
+      $('topicBackdrop').hidden = false;
+      $('topicMenuButton').setAttribute('aria-expanded', 'true');
+      document.body.classList.add('menu-open');
+      $('topicMenuClose').focus();
+    }
+
+    function closeTopicMenu() {
+      $('topicPanel').hidden = true;
+      $('topicBackdrop').hidden = true;
+      $('topicMenuButton').setAttribute('aria-expanded', 'false');
+      document.body.classList.remove('menu-open');
     }
 
     function switchView(name) {
@@ -56,6 +116,10 @@
     document.querySelectorAll('[data-view]').forEach(button => button.addEventListener('click', () => switchView(button.dataset.view)));
     document.querySelectorAll('[data-go]').forEach(button => button.addEventListener('click', () => switchView(button.dataset.go)));
     document.querySelectorAll('[data-lang]').forEach(button => button.addEventListener('click', () => { lang = button.dataset.lang; localStorage.setItem('chemia-lang', lang); applyLanguage(); }));
+    $('topicMenuButton').addEventListener('click', () => $('topicPanel').hidden ? openTopicMenu() : closeTopicMenu());
+    $('topicMenuClose').addEventListener('click', closeTopicMenu);
+    $('topicBackdrop').addEventListener('click', closeTopicMenu);
+    document.addEventListener('keydown', event => { if (event.key === 'Escape' && !$('topicPanel').hidden) { closeTopicMenu(); $('topicMenuButton').focus(); } });
 
     function renderTask() {
       const task = tasks[index];
@@ -108,5 +172,5 @@
   }
 
   if (typeof document !== 'undefined') document.addEventListener('DOMContentLoaded', init);
-  return { tasks, parseAnswer, isCorrect };
+  return { tasks, topicGroups, parseAnswer, isCorrect };
 });

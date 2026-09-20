@@ -4,6 +4,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#f6f2e8">
+  <meta name="description" content="Chemia bez stresu — польско-русский тренажёр по химии для 7 класса">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23f6f2e8'/%3E%3Ccircle cx='30' cy='29' r='20' fill='none' stroke='%2318312c' stroke-width='5'/%3E%3Cpath d='M41 19a16 16 0 1 0 0 20' fill='none' stroke='%23ec7958' stroke-width='6' stroke-linecap='round'/%3E%3Ccircle cx='49' cy='49' r='8' fill='%23f0c95d' stroke='%2318312c' stroke-width='3'/%3E%3C/svg%3E">
   <title>Chemia bez stresu — плотность</title>
   <link rel="stylesheet" href="style.css">
 </head>
@@ -13,7 +15,12 @@
       <span class="brand-mark">C</span>
       <span><strong>Chemia bez stresu</strong><small data-i18n="tagline">7 klasa · объяснения по-русски</small></span>
     </a>
-    <nav aria-label="Разделы">
+    <button id="topicMenuButton" class="topic-picker" type="button" aria-expanded="false" aria-controls="topicPanel">
+      <span class="topic-picker-label" data-i18n="currentTopicLabel">Текущая тема</span>
+      <strong data-i18n="currentTopic">Плотность</strong>
+      <span class="topic-chevron" aria-hidden="true">⌄</span>
+    </button>
+    <nav aria-label="Разделы" data-i18n-aria="sectionNavLabel">
       <button class="nav-link active" data-view="lesson" data-i18n="navLesson">Урок</button>
       <button class="nav-link" data-view="practice" data-i18n="navPractice">Тренажёр</button>
       <button class="nav-link" data-view="words" data-i18n="navWords">Словарь</button>
@@ -22,6 +29,16 @@
       <button class="active" data-lang="ru">RU</button><button data-lang="pl">PL</button>
     </div>
   </header>
+
+  <div id="topicBackdrop" class="topic-backdrop" hidden></div>
+  <aside id="topicPanel" class="topic-panel" aria-labelledby="topicPanelTitle" hidden>
+    <div class="topic-panel-head">
+      <div><span class="eyebrow" data-i18n="courseMap">КАРТА КУРСА</span><h2 id="topicPanelTitle" data-i18n="chooseTopic">Выбери тему</h2></div>
+      <button id="topicMenuClose" class="topic-close" type="button" aria-label="Закрыть" data-i18n-aria="close">×</button>
+    </div>
+    <p class="topic-panel-intro" data-i18n="topicPanelIntro">Темы расположены в порядке изучения. Пройденные уроки всегда можно открыть снова.</p>
+    <div id="topicList" class="topic-list"></div>
+  </aside>
 
   <main>
     <section id="lesson" class="view active" aria-labelledby="lesson-title">

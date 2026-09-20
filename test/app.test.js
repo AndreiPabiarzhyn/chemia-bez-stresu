@@ -1,6 +1,6 @@
 const test = require('node:test');
 const assert = require('node:assert/strict');
-const { tasks, parseAnswer, isCorrect } = require('../app.js');
+const { tasks, topicGroups, parseAnswer, isCorrect } = require('../app.js');
 
 test('parses Polish and English decimal separators', () => {
   assert.equal(parseAnswer('2,7'), 2.7);
@@ -24,4 +24,11 @@ test('all tasks contain complete learning data', () => {
     assert.ok(task.text && task.hint && task.solution && task.unit);
     assert.equal(Number.isFinite(task.answer), true);
   }
+});
+
+test('course navigation has one available topic and bilingual labels', () => {
+  const topics = topicGroups.flatMap(group => group.topics);
+  assert.equal(topics.filter(topic => topic.available).length, 1);
+  assert.equal(topics[0].id, 'density');
+  for (const topic of topics) assert.ok(topic.titleRu && topic.titlePl && topic.noteRu && topic.notePl);
 });
