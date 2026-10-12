@@ -1,6 +1,17 @@
 .elements-topic .nav-link[data-view="lesson"],.elements-topic .nav-link[data-view="practice"],.elements-topic .nav-link[data-view="words"] { display:none; }
 .practice-route { color:#506b60; font-size:16px; line-height:1.5; background:#edf3ed; padding:14px 18px; border-radius:12px; }
 .activity-menu { grid-template-columns:repeat(3,minmax(0,1fr)); }.activity-mixed { background:#e0e9ed; }
+.flashcard-stage { position:relative; width:min(100%,540px); height:310px; margin:auto; }
+.flashcard-stage .learning-flip { width:100%; height:100%; }
+.game-focus .flashcard-stage { width:min(100%,640px); height:360px; }
+.game-focus .flashcard-stage .learning-flip { width:100%; height:100%; }
+.card-audio { position:absolute; top:14px; left:14px; z-index:2; }
+.card-audio-button { display:grid; place-items:center; width:44px; height:44px; padding:0; border:1px solid #c7dbd0; border-radius:12px; background:#edf5ef; cursor:pointer; }
+.card-audio-button:hover,.card-audio-button:focus-visible { background:var(--mint); border-color:var(--green); }
+.card-audio-tooltip { position:absolute; top:0; left:calc(100% + 8px); width:max-content; max-width:220px; padding:8px 12px; border-radius:8px; background:var(--ink); color:white; font-size:13px; line-height:1.4; box-shadow:0 4px 12px #18312c26; visibility:hidden; opacity:0; pointer-events:none; }
+.card-audio:hover .card-audio-tooltip,.card-audio:focus-within .card-audio-tooltip { visibility:visible; opacity:1; }
+.card-audio-button img { display:block; }
+@media(max-width:520px) { .flashcard-stage { height:290px; }.card-audio { top:12px; left:12px; } }
 .lesson-route { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:12px; margin-bottom:24px; }
 .lesson-stop { padding:16px; border:1px solid var(--line); border-radius:14px; background:var(--white); text-align:left; cursor:pointer; display:grid; gap:8px; min-height:95px; }
 .lesson-stop.active { background:var(--mint); border-color:var(--green); }
