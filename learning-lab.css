@@ -1,0 +1,24 @@
+.elements-topic .nav-link[data-view="lesson"],.elements-topic .nav-link[data-view="practice"],.elements-topic .nav-link[data-view="words"] { display:none; }
+.practice-route { color:#506b60; font-size:16px; line-height:1.5; background:#edf3ed; padding:14px 18px; border-radius:12px; }
+.activity-menu { grid-template-columns:repeat(3,minmax(0,1fr)); }.activity-mixed { background:#e0e9ed; }
+.lesson-route { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:12px; margin-bottom:24px; }
+.lesson-stop { padding:16px; border:1px solid var(--line); border-radius:14px; background:var(--white); text-align:left; cursor:pointer; display:grid; gap:8px; min-height:95px; }
+.lesson-stop.active { background:var(--mint); border-color:var(--green); }
+.lesson-stop small { color:var(--muted); }.lesson-stop strong { font-size:16px; line-height:1.4; }
+.mini-lesson { max-width:850px; margin:auto; padding:28px; background:#fbfaf4; border:1px solid var(--line); border-radius:20px; }
+.mini-lesson h2 { font:800 28px/1.3 Manrope,Arial,sans-serif; margin:12px 0 20px; }
+.mini-lesson h3 { font:800 22px Manrope,Arial,sans-serif; margin-top:32px; }
+.mini-lesson p { font-size:18px; line-height:1.65; }
+.particle-model { display:flex; justify-content:center; gap:24px; flex-wrap:wrap; padding:24px; background:#edf3ed; border-radius:16px; margin-top:22px; }
+.molecule { display:grid; gap:12px; place-items:center; }.molecule>div { display:flex; gap:6px; }.molecule>strong { font-size:22px; }
+.atom-token { border:2px solid var(--green); border-radius:50%; width:54px; height:54px; font:800 24px Manrope,Arial,sans-serif; background:var(--mint); cursor:pointer; }
+.atom-O { background:#ffd2bf; border-color:#ae5032; }.atom-H { background:#dcecfa; border-color:#427091; }.atom-N { background:#e6e0f5; border-color:#765b9a; }
+.mini-lesson .atom-explanation { font-size:14px; color:#506b60; }
+.lesson-trap { background:#fff3cf; border-left:4px solid #c6a537; padding:16px 20px; border-radius:10px; }
+.lesson-trap p { margin:6px 0 0; font-size:17px; }
+.lesson-questions { display:grid; gap:16px; }.lesson-question { padding:20px; border:1px solid var(--line); border-radius:16px; background:var(--white); }
+.lesson-question h4 { font-size:18px; margin:0 0 16px; line-height:1.5; }.lesson-options { display:flex; flex-wrap:wrap; gap:10px; }
+.lesson-options .game-secondary { font-size:16px; padding:12px 18px; }.lesson-feedback { min-height:28px; color:#804514; }.lesson-feedback.good { color:var(--green); }
+.lesson-question form { display:flex; gap:14px; }.lesson-question input { width:100px; padding:10px; font-size:28px; border:1px solid var(--line); border-radius:12px; text-align:center; }
+body:has(.game-focus) { overflow:hidden; }body:has(.game-focus) .site-header { display:none; }
+@media(max-width:700px) { .lesson-route { grid-template-columns:repeat(2,minmax(0,1fr)); }.mini-lesson { padding:18px; }.mini-lesson h2 { font-size:24px; }.mini-lesson p { font-size:17px; }.lesson-question { padding:16px; }.particle-model { padding:16px; gap:16px; }.molecule>div { gap:4px; }.atom-token { width:48px; height:48px; font-size:22px; }.elements-topic .site-header { position:static; }.elements-topic .site-header nav { width:auto; margin:0; padding:0; border:0; order:initial; }.memory-settings>.game-primary { font-size:16px; } }

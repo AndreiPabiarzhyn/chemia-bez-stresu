@@ -58,6 +58,8 @@
   };
 
   const aiModeLabels = { ru: 'ИИ подключён', pl: 'AI jest podłączone' };
+  Object.assign(uiTranslations.ru,{elementsTableTab:'Справочник',elementsMemoryTab:'Практика',memoryTitle:'Выбери игру или учись по шагам'});
+  Object.assign(uiTranslations.pl,{elementsTableTab:'Ściąga',elementsMemoryTab:'Ćwiczenia',memoryTitle:'Wybierz grę lub ucz się krok po kroku'});
 
   function parseAnswer(value) {
     const normalized = String(value).trim().replace(',', '.').replace(/\s+/g, '');
@@ -92,6 +94,7 @@
       renderTask();
       renderElementsTable();
       renderMemory();
+      lessonsTrainer.render();
       updateTopicLabel();
     }
 
@@ -146,6 +149,7 @@
       if (name === 'elements') renderMemory();
       updateTopicLabel();
       renderTopicList();
+      document.body.classList.toggle('elements-topic',name==='elements');
     }
 
     function updateTopicLabel() {
@@ -209,6 +213,7 @@
     $('nextButton').addEventListener('click', () => { index = (index + 1) % tasks.length; renderTask(); $('answerInput').focus(); });
 
     const memoryTrainer = ElementMemory.create({ elements, getLanguage: () => lang });
+    const lessonsTrainer = ChemistryLessons.create({getLanguage:()=>lang,onPractice:()=>{document.querySelector('[data-element-panel="memory"]').click();memoryTrainer.beginPath();}});
 
     function renderElementsTable() {
       const query = $('elementSearch').value.trim().toLowerCase();
@@ -230,6 +235,8 @@
         item.classList.toggle('active', !item.hidden);
       });
       if (panel === 'memory') renderMemory();
+      if (panel === 'theory') lessonsTrainer.render();
+      try{localStorage.setItem('chemia-lab-panel',panel);}catch{}
     }));
     $('elementSearch').addEventListener('input', renderElementsTable);
     $('helpForm').addEventListener('submit', async event => {
@@ -265,6 +272,10 @@
       return String(text).replace(/[&<>"']/g, character => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[character]));
     }
     applyLanguage();
+    switchView('elements');
+    let startingPanel='theory';
+    try{const stored=localStorage.getItem('chemia-lab-panel');if(['theory','memory','table'].includes(stored))startingPanel=stored;}catch{}
+    document.querySelector(`[data-element-panel="${startingPanel}"]`).click();
     refreshAiStatus();
   }
 
