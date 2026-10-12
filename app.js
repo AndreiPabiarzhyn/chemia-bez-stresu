@@ -35,7 +35,7 @@
       titleRu: 'Строение вещества', titlePl: 'Budowa materii',
       topics: [
         { id: 'atoms', number: '03', titleRu: 'Атомы и молекулы', titlePl: 'Atomy i cząsteczki', noteRu: 'Из чего состоит вещество', notePl: 'Z czego składa się materia' },
-        { id: 'elements', number: '04', titleRu: 'Химические элементы', titlePl: 'Pierwiastki chemiczne', noteRu: 'Символы и таблица', notePl: 'Symbole i układ okresowy' }
+        { id: 'elements', number: '04', titleRu: 'Химические элементы', titlePl: 'Pierwiastki chemiczne', noteRu: '24 элемента и игры', notePl: '24 pierwiastki i gry', available: true }
       ]
     },
     {
@@ -91,7 +91,8 @@
       renderTopicList();
       renderTask();
       renderElementsTable();
-      if (memoryMode) renderMemory();
+      renderMemory();
+      updateTopicLabel();
     }
 
     async function refreshAiStatus() {
@@ -110,7 +111,7 @@
         const items = group.topics.map(topic => {
           const title = lang === 'pl' ? topic.titlePl : topic.titleRu;
           const note = lang === 'pl' ? topic.notePl : topic.noteRu;
-          const current = topic.id === 'density';
+          const current = topic.id === (document.querySelector('.view.active')?.id === 'elements' ? 'elements' : 'density');
           return `<button class="topic-item${current ? ' current' : ''}" data-topic="${topic.id}" ${topic.available ? '' : 'disabled'}>
             <span class="topic-number">${topic.number}</span>
             <span class="topic-copy"><strong>${title}</strong><small>${note}</small></span>
@@ -119,7 +120,7 @@
         }).join('');
         return `<section class="topic-group"><h3 class="topic-group-title">${groupTitle}</h3><div class="topic-items">${items}</div></section>`;
       }).join('');
-      $('topicList').querySelectorAll('[data-topic]:not(:disabled)').forEach(button => button.addEventListener('click', () => { closeTopicMenu(); switchView('lesson'); }));
+      $('topicList').querySelectorAll('[data-topic]:not(:disabled)').forEach(button => button.addEventListener('click', () => { closeTopicMenu(); switchView(button.dataset.topic === 'elements' ? 'elements' : 'lesson'); }));
     }
 
     function openTopicMenu() {
@@ -143,6 +144,12 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
       if (name === 'practice') setTimeout(() => $('answerInput').focus(), 350);
       if (name === 'elements') renderMemory();
+      updateTopicLabel();
+      renderTopicList();
+    }
+
+    function updateTopicLabel() {
+      $('topicMenuButton').querySelector('strong').textContent = document.querySelector('.view.active')?.id === 'elements' ? t('navElements') : t('currentTopic');
     }
 
     document.querySelectorAll('[data-view]').forEach(button => button.addEventListener('click', () => switchView(button.dataset.view)));
@@ -201,11 +208,7 @@
     });
     $('nextButton').addEventListener('click', () => { index = (index + 1) % tasks.length; renderTask(); $('answerInput').focus(); });
 
-    let memoryIndex = 0;
-    let memoryRevealed = false;
-    let matchSelected = [];
-    let matchSolved = [];
-    let memoryMode = 'flashcards';
+    const memoryTrainer = ElementMemory.create({ elements, getLanguage: () => lang });
 
     function renderElementsTable() {
       const query = $('elementSearch').value.trim().toLowerCase();
@@ -214,44 +217,21 @@
       $('elementsTableBody').innerHTML = visible.map(item => `<tr><td><b class="element-symbol">${item.symbol}</b></td><td>${item.pl}</td><td>${item.ru}</td></tr>`).join('') || `<tr><td colspan="3" class="empty-state">${lang === 'pl' ? 'Brak wyników.' : 'Ничего не найдено.'}</td></tr>`;
     }
 
-    function memoryElement(offset = 0) { return elements[(memoryIndex + offset) % elements.length]; }
-
-    function renderMemory() {
-      const game = $('memoryGame');
-      if (!game) return;
-      const item = memoryElement();
-      if (memoryMode === 'flashcards') {
-        game.innerHTML = `<div class="flashcard"><span class="eyebrow">${item.symbol}</span><strong>${memoryRevealed ? (lang === 'pl' ? item.pl : item.ru) : '？'}</strong><small>${memoryRevealed ? (lang === 'pl' ? item.ru : item.pl) : (lang === 'pl' ? 'Najpierw spróbuj przypomnieć sobie nazwę.' : 'Сначала попробуй вспомнить название.')}</small></div><div class="memory-actions"><button class="primary" id="memoryReveal">${memoryRevealed ? t('known') : t('showAnswer')}</button><button class="text-button" id="memoryNext">${memoryRevealed ? t('nextRound') : t('repeat')}</button></div>`;
-        $('memoryReveal').addEventListener('click', () => { if (!memoryRevealed) { memoryRevealed = true; renderMemory(); } else { memoryIndex = (memoryIndex + 1) % elements.length; memoryRevealed = false; renderMemory(); } });
-        $('memoryNext').addEventListener('click', () => { memoryIndex = (memoryIndex + 1) % elements.length; memoryRevealed = false; renderMemory(); });
-      } else if (memoryMode === 'match') {
-        const picks = [memoryElement(0), memoryElement(1), memoryElement(2)];
-        const cards = [...picks.map(x => ({ value:x.symbol, key:x.symbol, label:x.symbol, type:'symbol' })), ...picks.map(x => ({ value:x.symbol, key:x.symbol, label:lang === 'pl' ? x.pl : x.ru, type:'name' }))].sort(() => Math.random() - .5);
-        game.innerHTML = `<p class="memory-instruction">${t('chooseSymbol')}</p><div class="match-grid">${cards.map((card, i) => `<button class="match-card${matchSolved.includes(card.key) ? ' solved' : ''}" data-match="${card.key}" data-type="${card.type}" data-index="${i}">${card.label}</button>`).join('')}</div><p id="memoryFeedback" class="memory-feedback"></p>`;
-        game.querySelectorAll('.match-card:not(.solved)').forEach(button => button.addEventListener('click', () => {
-          if (matchSelected.some(x => x.index === Number(button.dataset.index))) return;
-          button.classList.add('selected'); matchSelected.push({ key:button.dataset.match, type:button.dataset.type, index:Number(button.dataset.index) });
-          if (matchSelected.length === 2) { const [a,b] = matchSelected; const good = a.key === b.key && a.type !== b.type; if (good) { matchSolved.push(a.key); game.querySelectorAll(`[data-match="${a.key}"]`).forEach(x => x.classList.add('solved')); $('memoryFeedback').textContent = t('correct'); } else { $('memoryFeedback').textContent = t('tryAgain'); setTimeout(() => game.querySelectorAll('.selected').forEach(x => x.classList.remove('selected')), 450); } matchSelected = []; if (matchSolved.length === 3) $('memoryFeedback').textContent = `${t('correct')} ${t('nextRound')}`; }
-        }));
-      } else if (memoryMode === 'odd') {
-        const picks = [elements.find(x => x.symbol === 'H'), elements.find(x => x.symbol === 'O'), elements.find(x => x.symbol === 'N'), elements.find(x => x.symbol === 'Na')];
-        game.innerHTML = `<p class="memory-instruction">${t('chooseOdd')}</p><div class="odd-grid">${picks.map(x => `<button class="odd-card" data-symbol="${x.symbol}"><b>${x.symbol}</b><span>${lang === 'pl' ? x.pl : x.ru}</span></button>`).join('')}</div><p id="memoryFeedback" class="memory-feedback"></p>`;
-        game.querySelectorAll('.odd-card').forEach(button => button.addEventListener('click', () => { const good = button.dataset.symbol === 'Na'; $('memoryFeedback').textContent = good ? `${t('correct')} ${t('oddReason')}` : t('tryAgain'); button.classList.toggle('wrong', !good); button.classList.toggle('correct-choice', good); }));
-      } else {
-        const answer = item.symbol;
-        game.innerHTML = `<p class="memory-instruction">${t('missingPrompt')} <b>${lang === 'pl' ? item.pl : item.ru}</b>?</p><div class="missing-row"><input id="missingInput" maxlength="2" autocomplete="off" aria-label="${t('missingPrompt')}"><button class="primary" id="missingCheck">${t('check')}</button></div><p id="memoryFeedback" class="memory-feedback"></p>`;
-        $('missingCheck').addEventListener('click', () => { const good = $('missingInput').value.trim().toLowerCase() === answer.toLowerCase(); $('memoryFeedback').textContent = good ? t('correct') : t('tryAgain'); if (good) { memoryIndex = (memoryIndex + 1) % elements.length; setTimeout(renderMemory, 500); } });
-      }
-    }
+    function renderMemory() { memoryTrainer.render(); }
 
     document.querySelectorAll('[data-element-panel]').forEach(button => button.addEventListener('click', () => {
       const panel = button.dataset.elementPanel;
-      document.querySelectorAll('.element-tab').forEach(item => item.classList.toggle('active', item === button));
-      document.querySelectorAll('.element-panel').forEach(item => { item.hidden = item.id !== `element${panel[0].toUpperCase()}${panel.slice(1)}Panel`; item.classList.toggle('active', !item.hidden); });
+      document.querySelectorAll('.element-tab').forEach(item => {
+        item.classList.toggle('active', item === button);
+        item.setAttribute('aria-selected', String(item === button));
+      });
+      document.querySelectorAll('.element-panel').forEach(item => {
+        item.hidden = item.id !== `element${panel[0].toUpperCase()}${panel.slice(1)}Panel`;
+        item.classList.toggle('active', !item.hidden);
+      });
       if (panel === 'memory') renderMemory();
     }));
     $('elementSearch').addEventListener('input', renderElementsTable);
-    $('memoryMode').addEventListener('change', event => { memoryMode = event.target.value; matchSelected = []; matchSolved = []; memoryRevealed = false; renderMemory(); });
     $('helpForm').addEventListener('submit', async event => {
       event.preventDefault();
       const question = $('helpQuestion').value.trim();

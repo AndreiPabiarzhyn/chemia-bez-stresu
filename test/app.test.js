@@ -26,9 +26,9 @@ test('all tasks contain complete learning data', () => {
   }
 });
 
-test('course navigation has one available topic and bilingual labels', () => {
+test('course navigation exposes density and elements with bilingual labels', () => {
   const topics = topicGroups.flatMap(group => group.topics);
-  assert.equal(topics.filter(topic => topic.available).length, 1);
+  assert.deepEqual(topics.filter(topic => topic.available).map(topic => topic.id), ['density','elements']);
   assert.equal(topics[0].id, 'density');
   for (const topic of topics) assert.ok(topic.titleRu && topic.titlePl && topic.noteRu && topic.notePl);
 });

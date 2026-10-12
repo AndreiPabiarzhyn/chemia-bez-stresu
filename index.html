@@ -8,6 +8,7 @@
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23f6f2e8'/%3E%3Ccircle cx='30' cy='29' r='20' fill='none' stroke='%2318312c' stroke-width='5'/%3E%3Cpath d='M41 19a16 16 0 1 0 0 20' fill='none' stroke='%23ec7958' stroke-width='6' stroke-linecap='round'/%3E%3Ccircle cx='49' cy='49' r='8' fill='%23f0c95d' stroke='%2318312c' stroke-width='3'/%3E%3C/svg%3E">
   <title>Chemia bez stresu — плотность</title>
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="memory.css">
 </head>
 <body>
   <header class="site-header">
@@ -156,7 +157,9 @@
           </div>
         </div>
         <div id="elementMemoryPanel" class="element-panel" hidden>
-          <div class="memory-toolbar"><div><span class="eyebrow" data-i18n="memoryEyebrow">МИНИ-ИГРЫ</span><h2 data-i18n="memoryTitle">Тренируем память короткими раундами</h2></div><select id="memoryMode"><option value="flashcards" data-i18n="flashcardsMode">Карточки</option><option value="match" data-i18n="matchMode">Соедини пары</option><option value="odd" data-i18n="oddMode">Найди лишнее</option><option value="missing" data-i18n="missingMode">Вставь пропуск</option></select></div>
+          <div class="memory-toolbar"><div><span class="eyebrow" data-i18n="memoryEyebrow">МИНИ-ИГРЫ</span><h2 data-i18n="memoryTitle">Тренируем память короткими раундами</h2></div><div id="memoryMastery" class="mastery-badge"></div></div>
+          <div id="memoryActivities" class="activity-menu" role="group"></div>
+          <div id="memorySettings" class="memory-settings"></div>
           <div id="memoryGame" class="memory-game"></div>
         </div>
       </div>
@@ -225,6 +228,7 @@
   </main>
 
   <footer><span>Chemia bez stresu</span><span data-i18n="footerText">Материал для 7 класса польской школы</span></footer>
+  <script src="memory.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
