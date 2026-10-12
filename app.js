@@ -214,7 +214,7 @@
       const query = $('elementSearch').value.trim().toLowerCase();
       const visible = elements.filter(item => `${item.symbol} ${item.pl} ${item.ru}`.toLowerCase().includes(query));
       $('elementsCount').textContent = visible.length;
-      $('elementsTableBody').innerHTML = visible.map(item => `<tr><td><b class="element-symbol">${item.symbol}</b></td><td>${item.pl}</td><td>${item.ru}</td></tr>`).join('') || `<tr><td colspan="3" class="empty-state">${lang === 'pl' ? 'Brak wyników.' : 'Ничего не найдено.'}</td></tr>`;
+      $('elementsTableBody').innerHTML = visible.map(item => `<li class="element-reference-card"><b class="reference-symbol">${item.symbol}</b><div class="reference-names"><span lang="pl"><small>PL</small><strong>${item.pl}</strong></span><span lang="ru"><small>RU</small>${item.ru}</span></div></li>`).join('') || `<li class="reference-empty">${lang === 'pl' ? 'Brak wyników.' : 'Ничего не найдено.'}</li>`;
     }
 
     function renderMemory() { memoryTrainer.render(); }
