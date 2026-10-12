@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="memory.css">
   <link rel="stylesheet" href="learning-lab.css">
+  <link rel="stylesheet" href="extensions.css">
 </head>
 <body>
   <header class="site-header">
@@ -144,6 +145,8 @@
           <button class="element-tab active" data-element-panel="table" data-i18n="elementsTableTab">Таблица</button>
           <button class="element-tab" data-element-panel="theory" data-i18n="elementsTheoryTab">Теория</button>
           <button class="element-tab" data-element-panel="memory" data-i18n="elementsMemoryTab">Запоминание</button>
+          <button class="element-tab" data-element-panel="formulas" data-i18n="formulasTab">Формулы</button>
+          <button class="element-tab" data-element-panel="exam" data-i18n="examTab">Контрольная PL</button>
         </div>
         <div id="elementTablePanel" class="element-panel active">
           <div class="elements-toolbar"><label class="search-field"><span data-i18n="elementsSearchLabel">Поиск</span><input id="elementSearch" type="search" data-i18n-placeholder="elementsSearchPlaceholder" placeholder="Символ или название"></label><p id="elementsHint" class="toolbar-note" data-i18n="elementsTableHint">Сначала смотри на символ, потом произноси название по-польски.</p></div>
@@ -164,6 +167,8 @@
           <div id="memorySettings" class="memory-settings"></div>
           <div id="memoryGame" class="memory-game"></div>
         </div>
+        <div id="elementFormulasPanel" class="element-panel" hidden></div>
+        <div id="elementExamPanel" class="element-panel" hidden></div>
       </div>
     </section>
 
@@ -232,6 +237,7 @@
   <footer><span>Chemia bez stresu</span><span data-i18n="footerText">Материал для 7 класса польской школы</span></footer>
   <script src="memory.js"></script>
   <script src="lessons.js"></script>
+  <script src="extensions.js"></script>
   <script src="app.js"></script>
 </body>
 </html>

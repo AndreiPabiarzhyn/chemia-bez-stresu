@@ -60,6 +60,8 @@
   const aiModeLabels = { ru: 'ИИ подключён', pl: 'AI jest podłączone' };
   Object.assign(uiTranslations.ru,{elementsTableTab:'Справочник',elementsMemoryTab:'Практика',memoryTitle:'Выбери игру или учись по шагам'});
   Object.assign(uiTranslations.pl,{elementsTableTab:'Ściąga',elementsMemoryTab:'Ćwiczenia',memoryTitle:'Wybierz grę lub ucz się krok po kroku'});
+  Object.assign(uiTranslations.ru,{formulasTab:'Формулы',examTab:'Контрольная PL',elementsTableHint:'Нажми на элемент: увидишь, где он встречается в жизни.'});
+  Object.assign(uiTranslations.pl,{formulasTab:'Wzory',examTab:'Sprawdzian PL',elementsTableHint:'Kliknij pierwiastek: zobaczysz, gdzie spotkasz go w życiu.'});
 
   function parseAnswer(value) {
     const normalized = String(value).trim().replace(',', '.').replace(/\s+/g, '');
@@ -95,6 +97,7 @@
       renderElementsTable();
       renderMemory();
       lessonsTrainer.render();
+      extrasTrainer.render();
       updateTopicLabel();
     }
 
@@ -214,12 +217,14 @@
 
     const memoryTrainer = ElementMemory.create({ elements, getLanguage: () => lang });
     const lessonsTrainer = ChemistryLessons.create({getLanguage:()=>lang,onPractice:()=>{document.querySelector('[data-element-panel="memory"]').click();memoryTrainer.beginPath();}});
+    const extrasTrainer = ChemistryExtras.create({elements,getLanguage:()=>lang});
 
     function renderElementsTable() {
       const query = $('elementSearch').value.trim().toLowerCase();
       const visible = elements.filter(item => `${item.symbol} ${item.pl} ${item.ru}`.toLowerCase().includes(query));
       $('elementsCount').textContent = visible.length;
-      $('elementsTableBody').innerHTML = visible.map(item => `<li class="element-reference-card"><b class="reference-symbol">${item.symbol}</b><div class="reference-names"><span lang="pl"><small>PL</small><strong>${item.pl}</strong></span><span lang="ru"><small>RU</small>${item.ru}</span></div></li>`).join('') || `<li class="reference-empty">${lang === 'pl' ? 'Brak wyników.' : 'Ничего не найдено.'}</li>`;
+      $('elementsTableBody').innerHTML = visible.map(item => `<li class="element-reference-card"><button class="element-reference-open" data-example="${item.symbol}" aria-label="${item.symbol}: ${item.pl} / ${item.ru}. ${lang==='pl'?'Przykład z życia':'Пример из жизни'}"><b class="reference-symbol">${item.symbol}</b><span class="reference-names"><span lang="pl"><small>PL</small><strong>${item.pl}</strong></span><span lang="ru"><small>RU</small>${item.ru}</span></span></button></li>`).join('') || `<li class="reference-empty">${lang === 'pl' ? 'Brak wyników.' : 'Ничего не найдено.'}</li>`;
+      $('elementsTableBody').querySelectorAll('[data-example]').forEach(button=>button.addEventListener('click',()=>extrasTrainer.openExample(button.dataset.example,button)));
     }
 
     function renderMemory() { memoryTrainer.render(); }
@@ -236,6 +241,7 @@
       });
       if (panel === 'memory') renderMemory();
       if (panel === 'theory') lessonsTrainer.render();
+      if (panel === 'formulas'||panel === 'exam') extrasTrainer.render();
       try{localStorage.setItem('chemia-lab-panel',panel);}catch{}
     }));
     $('elementSearch').addEventListener('input', renderElementsTable);
@@ -274,7 +280,7 @@
     applyLanguage();
     switchView('elements');
     let startingPanel='theory';
-    try{const stored=localStorage.getItem('chemia-lab-panel');if(['theory','memory','table'].includes(stored))startingPanel=stored;}catch{}
+    try{const stored=localStorage.getItem('chemia-lab-panel');if(['theory','memory','table','formulas','exam'].includes(stored))startingPanel=stored;}catch{}
     document.querySelector(`[data-element-panel="${startingPanel}"]`).click();
     refreshAiStatus();
   }
