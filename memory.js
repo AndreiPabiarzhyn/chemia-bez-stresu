@@ -46,6 +46,13 @@
     }
   };
 
+  Object.assign(labels.ru, { learned:'Всего запомнил', sessionLearned:'Запомнил в этой подборке', remaining:'Осталось карточек', repeatQueue:'Из них на повторение', sessionDone:'Подборка завершена!', sessionSummary:'Все элементы выбранной подборки пройдены.', overall:'Всего отмечено как запомненные', repeatProgress:'Повторы не увеличивают число элементов в подборке.' });
+  Object.assign(labels.pl, { learned:'Łącznie zapamiętane', sessionLearned:'Zapamiętane w tym zestawie', remaining:'Pozostałe fiszki', repeatQueue:'W tym do powtórki', sessionDone:'Zestaw ukończony!', sessionSummary:'Wszystkie pierwiastki z wybranego zestawu zostały przećwiczone.', overall:'Łącznie oznaczone jako zapamiętane', repeatProgress:'Powtórki nie zwiększają liczby pierwiastków w zestawie.' });
+
+  function createLearningDeck(available, mastered = new Set(), random = Math.random) {
+    return shuffle(available, random).sort((a,b) => Number(mastered.has(a.symbol)) - Number(mastered.has(b.symbol)));
+  }
+
   function shuffle(items, random = Math.random) {
     const result = [...items];
     for (let i = result.length - 1; i > 0; i--) {
@@ -73,6 +80,7 @@
     let options = [], pairs = [], names = [], selected = null, matched = new Set();
     let focusMode = false, total = 8, feedback = '', feedbackKind = '', inputValue = '', usedHint = false;
     let previousLanguage = getLanguage();
+    let sessionSize = 0, sessionKnown = new Set();
 
     const l = key => labels[getLanguage() === 'pl' ? 'pl' : 'ru'][key];
     const name = item => item[getLanguage() === 'pl' ? 'pl' : 'ru'];
@@ -88,7 +96,8 @@
 
     function start(only = null) {
       const available = only || pool();
-      deck = shuffle(available).sort((a,b) => Number(mastered.has(a.symbol)) - Number(mastered.has(b.symbol))).slice(0,8);
+      deck = createLearningDeck(available, mastered);
+      sessionSize = deck.length; sessionKnown = new Set();
       total = mode === 'match' ? Math.ceil(deck.length / 4) : deck.length; current = 0; successes = 0; mistakes = new Set();
       prepare(); render();
     }
@@ -144,9 +153,10 @@
       renderChrome();
       const game = $('memoryGame');
       const item = mode === 'match' ? (current < total ? deck[current * 4] : null) : deck[current];
-      const count = mode === 'flashcards' ? `${Math.min(current + 1,deck.length)} / ${deck.length}` : `${Math.min(current + 1,total)} / ${total}`;
-      const progress = mode === 'flashcards' ? mastered.size / elements.length : current / total;
-      game.innerHTML = `<div class="game-topline"><span>${l(mode === 'flashcards' ? 'card' : 'round')} <b>${count}</b></span><span>${mode === 'flashcards' ? `${l('pending')}: ${Math.max(0,deck.length-current)}` : l(mode)[0]}</span></div><progress class="game-progress" max="1" value="${progress}" aria-label="${l('progress')}"></progress><div id="gameContent"></div>`;
+      const count = mode === 'flashcards' ? `${sessionKnown.size} / ${sessionSize}` : `${Math.min(current + 1,total)} / ${total}`;
+      const progress = mode === 'flashcards' ? sessionKnown.size / sessionSize : current / total;
+      const queuedRepeats = new Set(deck.slice(current).filter(x => mistakes.has(x.symbol)).map(x => x.symbol)).size;
+      game.innerHTML = `<div class="game-topline"><span>${l(mode === 'flashcards' ? 'sessionLearned' : 'round')} <b>${count}</b></span><span>${mode === 'flashcards' ? `${l('remaining')}: ${Math.max(0,deck.length-current)} · ${l('repeatQueue')}: ${queuedRepeats}` : l(mode)[0]}</span></div><progress class="game-progress" max="1" value="${progress}" aria-label="${l('progress')}"></progress>${mode === 'flashcards' ? `<p class="game-save-note">${l('repeatProgress')}</p>` : ''}<div id="gameContent"></div>`;
       if (!item) { renderResult(); return; }
       if (mode === 'flashcards') renderFlash(item);
       else if (mode === 'match') renderMatch();
@@ -159,8 +169,8 @@
       const flip = () => { revealed = !revealed; render(); $('memoryFlip').focus({preventScroll:true}); };
       $('memoryFlip').addEventListener('click', flip);
       $('memoryReveal')?.addEventListener('click', flip);
-      $('memoryKnown')?.addEventListener('click', () => { mastered.add(item.symbol); save(); next(); });
-      $('memoryAgain')?.addEventListener('click', () => { mastered.delete(item.symbol); save(); deck.push(item); mistakes.add(item.symbol); next(); });
+      $('memoryKnown')?.addEventListener('click', () => { mastered.add(item.symbol); sessionKnown.add(item.symbol); save(); next(); });
+      $('memoryAgain')?.addEventListener('click', () => { mastered.delete(item.symbol); sessionKnown.delete(item.symbol); save(); deck.push(item); mistakes.add(item.symbol); next(); });
     }
 
     function renderMatch() {
@@ -205,8 +215,8 @@
     }
 
     function renderResult() {
-      $('memoryGame').querySelector('progress').value = mode === 'flashcards' ? mastered.size / elements.length : 1;
-      $('gameContent').innerHTML = `<div class="round-result"><span class="result-number">${mode === 'flashcards' ? mastered.size : successes}<small> / ${mode === 'flashcards' ? '24' : total}</small></span><h3 id="gameTitle" tabindex="-1">${l('result')}</h3><p>${mode === 'flashcards' ? l('saving') : `${l('resultScore')}: ${successes} / ${total}. ${l('resultText')}`}</p><div class="game-actions">${mistakes.size ? `<button class="game-secondary" id="repeatMistakes">${l('mistakes')}</button>` : ''}<button class="game-primary" id="playAgain">${l('playAgain')}</button></div></div>`;
+      $('memoryGame').querySelector('progress').value = 1;
+      $('gameContent').innerHTML = `<div class="round-result"><span class="result-number">${mode === 'flashcards' ? sessionKnown.size : successes}<small> / ${mode === 'flashcards' ? sessionSize : total}</small></span><h3 id="gameTitle" tabindex="-1">${l(mode === 'flashcards' ? 'sessionDone' : 'result')}</h3><p>${mode === 'flashcards' ? `${l('sessionSummary')} ${l('overall')}: ${mastered.size} / 24.` : `${l('resultScore')}: ${successes} / ${total}. ${l('resultText')}`}</p><div class="game-actions">${mistakes.size ? `<button class="game-secondary" id="repeatMistakes">${l('mistakes')}</button>` : ''}<button class="game-primary" id="playAgain">${l('playAgain')}</button></div></div>`;
       $('repeatMistakes')?.addEventListener('click', () => start(elements.filter(x => mistakes.has(x.symbol))));
       $('playAgain').addEventListener('click', () => start());
     }
@@ -216,5 +226,5 @@
     });
     return { render };
   }
-  return { create, shuffle, oddRound };
+  return { create, shuffle, oddRound, createLearningDeck };
 });

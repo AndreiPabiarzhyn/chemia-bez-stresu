@@ -1,7 +1,21 @@
 const test = require('node:test');
 const assert = require('node:assert/strict');
 const { elements } = require('../app.js');
-const { shuffle, oddRound } = require('../memory.js');
+const { shuffle, oddRound, createLearningDeck } = require('../memory.js');
+
+test('all 24 means every element exactly once, including previously mastered ones', () => {
+  const deck = createLearningDeck(elements, new Set(['H','O','Na']));
+  assert.equal(deck.length, 24);
+  assert.equal(new Set(deck.map(x => x.symbol)).size, 24);
+  assert.deepEqual(deck.map(x => x.symbol).sort(), elements.map(x => x.symbol).sort());
+});
+
+test('a short pack keeps precisely its selected eight elements', () => {
+  const pack = elements.slice(8,16);
+  const deck = createLearningDeck(pack);
+  assert.equal(deck.length, 8);
+  assert.deepEqual(deck.map(x => x.symbol).sort(), pack.map(x => x.symbol).sort());
+});
 
 test('shuffle preserves the source and every element exactly once', () => {
   const source = elements.map(x => x.symbol);
