@@ -14,6 +14,15 @@
     { type: 'volume', title: 'Найди объём', titlePl: 'Oblicz objętość', text: 'Masa przedmiotu wynosi 540 g, a jego gęstość 2,7 g/cm³. Oblicz objętość.', values: ['m = 540 g', 'ρ = 2,7 g/cm³'], answer: 200, unit: 'cm³', hint: 'Раздели всю массу на то, сколько весит 1 cm³: 540 : 2,7.', hintPl: 'Podziel całą masę przez masę 1 cm³: 540 : 2,7.', solution: '540 : 2,7 = 200 cm³.', solutionPl: '540 : 2,7 = 200 cm³.' }
   ];
 
+  const elements = [
+    ['H','wodór','водород','nonmetal'],['O','tlen','кислород','nonmetal'],['N','azot','азот','nonmetal'],['C','węgiel','углерод','nonmetal'],
+    ['Na','sód','натрий','metal'],['Mg','magnez','магний','metal'],['Al','glin','алюминий','metal'],['Si','krzem','кремний','metalloid'],
+    ['Br','brom','бром','nonmetal'],['Ag','srebro','серебро','metal'],['Sn','cyna','олово','metal'],['I','jod','йод','nonmetal'],
+    ['Ba','bar','барий','metal'],['Au','złoto','золото','metal'],['Hg','rtęć','ртуть','metal'],['Pb','ołów','свинец','metal'],
+    ['P','fosfor','фосфор','nonmetal'],['S','siarka','сера','nonmetal'],['Cl','chlor','хлор','nonmetal'],['K','potas','калий','metal'],
+    ['Ca','wapń','кальций','metal'],['Fe','żelazo','железо','metal'],['Cu','miedź','медь','metal'],['Zn','cynk','цинк','metal']
+  ].map(([symbol, pl, ru, kind]) => ({ symbol, pl, ru, kind }));
+
   const topicGroups = [
     {
       titleRu: 'Вещества и их свойства', titlePl: 'Substancje i ich właściwości',
@@ -44,8 +53,8 @@
   };
 
   const uiTranslations = {
-    ru: { navHelp:'Помоги разобраться',helpEyebrow:'ЭКСПЕРИМЕНТАЛЬНЫЙ РЕЖИМ',helpTitle:'Помоги разобраться',localOnlyStatus:'локальный режим',assistantName:'Спокойный помощник',assistantIntro:'Пришли условие — я помогу найти первый шаг, а не просто выдам ответ.',questionLabel:'Условие или свой ход решения',questionPlaceholder:'Например: Masa wynosi 780 g, gęstość 7,8 g/cm³. Я не понимаю, как найти объём.',helpModeLabel:'Как помочь',modeFirst:'Только первый шаг',modeHint:'Подсказка без ответа',modeFull:'Полный разбор',helpTopicLabel:'Тема',densityTopic:'Плотность / Gęstość',generalTopic:'Другая тема',askButton:'Помоги с этим',goodQuestion:'ХОРОШИЙ ЗАПРОС',goodQuestionTitle:'Что написать?',tipOne:'Само условие задачи',tipTwo:'Что уже получилось',tipThree:'На каком шаге стало непонятно',aiNoteTitle:'Важно',aiNoteText:'Сейчас это локальный эксперимент. Фото задач подключим после проверки текстового режима.' },
-    pl: { navHelp:'Pomóż mi zrozumieć',helpEyebrow:'TRYB EKSPERYMENTALNY',helpTitle:'Pomóż mi zrozumieć',localOnlyStatus:'tryb lokalny',assistantName:'Spokojny pomocnik',assistantIntro:'Wyślij treść zadania — pomogę znaleźć pierwszy krok, zamiast od razu podawać odpowiedź.',questionLabel:'Treść zadania lub Twój sposób rozwiązania',questionPlaceholder:'Na przykład: Masa wynosi 780 g, gęstość 7,8 g/cm³. Nie wiem, jak obliczyć objętość.',helpModeLabel:'Jak pomóc',modeFirst:'Tylko pierwszy krok',modeHint:'Wskazówka bez odpowiedzi',modeFull:'Pełne rozwiązanie',helpTopicLabel:'Temat',densityTopic:'Gęstość / Плотность',generalTopic:'Inny temat',askButton:'Pomóż z tym',goodQuestion:'DOBRE PYTANIE',goodQuestionTitle:'Co napisać?',tipOne:'Treść zadania',tipTwo:'Co już udało Ci się zrobić',tipThree:'W którym miejscu pojawił się problem',aiNoteTitle:'Ważne',aiNoteText:'To lokalny eksperyment. Zdjęcia zadań dodamy po sprawdzeniu trybu tekstowego.' }
+    ru: { navHelp:'Помоги разобраться',navElements:'Элементы',helpEyebrow:'ЭКСПЕРИМЕНТАЛЬНЫЙ РЕЖИМ',helpTitle:'Помоги разобраться',localOnlyStatus:'локальный режим',assistantName:'Спокойный помощник',assistantIntro:'Пришли условие — я помогу найти первый шаг, а не просто выдам ответ.',questionLabel:'Условие или свой ход решения',questionPlaceholder:'Например: Masa wynosi 780 g, gęstość 7,8 g/cm³. Я не понимаю, как найти объём.',helpModeLabel:'Как помочь',modeFirst:'Только первый шаг',modeHint:'Подсказка без ответа',modeFull:'Полный разбор',helpTopicLabel:'Тема',densityTopic:'Плотность / Gęstość',generalTopic:'Другая тема',askButton:'Помоги с этим',goodQuestion:'ХОРОШИЙ ЗАПРОС',goodQuestionTitle:'Что написать?',tipOne:'Само условие задачи',tipTwo:'Что уже получилось',tipThree:'На каком шаге стало непонятно',aiNoteTitle:'Важно',aiNoteText:'Сейчас это локальный эксперимент. Фото задач подключим после проверки текстового режима.',elementsEyebrow:'ХИМИЧЕСКИЕ ЭЛЕМЕНТЫ',elementsTitle:'Запоминаем элементы',elementsCountLabel:'В списке',elementsTableTab:'Таблица',elementsTheoryTab:'Теория',elementsMemoryTab:'Запоминание',elementsSearchLabel:'Поиск',elementsSearchPlaceholder:'Символ или название',elementsTableHint:'Сначала смотри на символ, потом произноси название по-польски.',symbolLabel:'Символ',polishNameLabel:'По-польски',russianNameLabel:'По-русски',simpleSubstancesTitle:'Простые вещества',simpleSubstancesText:'Состоят из атомов одного химического элемента. Примеры: węgiel — углерод, siarka — сера.',compoundSubstancesTitle:'Сложные вещества',compoundSubstancesText:'Состоят из атомов как минимум двух разных элементов. Примеры: woda — вода, dwutlenek węgla — углекислый газ.',mixturesTitle:'Смеси',mixturesText:'Несколько веществ рядом, без превращения в новое вещество. Например, воздух и чай с сахаром.',atomTitle:'Атом',atomText:'Очень маленькая частица элемента, сохраняющая его химические свойства.',sourceNoteTitle:'Важно про запись в тетради',sourceNoteText:'Sól (соль) — это сложное вещество, а не простое. Для простых веществ лучше запомнить углерод и серу.',memoryEyebrow:'МИНИ-ИГРЫ',memoryTitle:'Тренируем память короткими раундами',flashcardsMode:'Карточки',matchMode:'Соедини пары',oddMode:'Найди лишнее',missingMode:'Вставь пропуск',showAnswer:'Показать ответ',known:'Знаю',repeat:'Повторить',nextRound:'Следующий раунд',chooseSymbol:'Выбери символ',chooseOdd:'Найди лишний элемент',check:'Проверить',correct:'Верно!',tryAgain:'Попробуй ещё раз.',missingPrompt:'Какой символ у элемента',oddReason:'Лишний — металл, остальные неметаллы.' },
+    pl: { navHelp:'Pomóż mi zrozumieć',navElements:'Pierwiastki',helpEyebrow:'TRYB EKSPERYMENTALNY',helpTitle:'Pomóż mi zrozumieć',localOnlyStatus:'tryb lokalny',assistantName:'Spokojny pomocnik',assistantIntro:'Wyślij treść zadania — pomogę znaleźć pierwszy krok, zamiast od razu podawać odpowiedź.',questionLabel:'Treść zadania lub Twój sposób rozwiązania',questionPlaceholder:'Na przykład: Masa wynosi 780 g, gęstość 7,8 g/cm³. Nie wiem, jak obliczyć objętość.',helpModeLabel:'Jak pomóc',modeFirst:'Tylko pierwszy krok',modeHint:'Wskazówka bez odpowiedzi',modeFull:'Pełne rozwiązanie',helpTopicLabel:'Temat',densityTopic:'Gęstość / Плотность',generalTopic:'Inny temat',askButton:'Pomóż z tym',goodQuestion:'DOBRE PYTANIE',goodQuestionTitle:'Co napisać?',tipOne:'Treść zadania',tipTwo:'Co już udało Ci się zrobić',tipThree:'W którym miejscu pojawił się problem',aiNoteTitle:'Ważne',aiNoteText:'To lokalny eksperyment. Zdjęcia zadań dodamy po sprawdzeniu trybu tekstowego.',elementsEyebrow:'PIERWIASTKI CHEMICZNE',elementsTitle:'Zapamiętujemy pierwiastki',elementsCountLabel:'Na liście',elementsTableTab:'Tabela',elementsTheoryTab:'Teoria',elementsMemoryTab:'Zapamiętywanie',elementsSearchLabel:'Szukaj',elementsSearchPlaceholder:'Symbol lub nazwa',elementsTableHint:'Najpierw spójrz na symbol, potem wymów nazwę po polsku.',symbolLabel:'Symbol',polishNameLabel:'Po polsku',russianNameLabel:'Po rosyjsku',simpleSubstancesTitle:'Substancje proste',simpleSubstancesText:'Są zbudowane z atomów jednego pierwiastka. Przykłady: węgiel i siarka.',compoundSubstancesTitle:'Związki chemiczne',compoundSubstancesText:'Są zbudowane z atomów co najmniej dwóch różnych pierwiastków. Przykłady: woda i dwutlenek węgla.',mixturesTitle:'Mieszaniny',mixturesText:'To kilka substancji obok siebie, bez powstania nowej substancji. Na przykład powietrze i herbata z cukrem.',atomTitle:'Atom',atomText:'Bardzo mała cząstka pierwiastka, która zachowuje jego właściwości chemiczne.',sourceNoteTitle:'Ważne: poprawka do notatki',sourceNoteText:'Sól jest związkiem chemicznym, a nie substancją prostą. Jako przykłady substancji prostych zapamiętaj węgiel i siarkę.',memoryEyebrow:'MINI-GRY',memoryTitle:'Ćwicz pamięć w krótkich rundach',flashcardsMode:'Fiszki',matchMode:'Połącz pary',oddMode:'Znajdź intruza',missingMode:'Uzupełnij brak',showAnswer:'Pokaż odpowiedź',known:'Wiem',repeat:'Powtórz',nextRound:'Następna runda',chooseSymbol:'Wybierz symbol',chooseOdd:'Znajdź niepasujący pierwiastek',check:'Sprawdź',correct:'Dobrze!',tryAgain:'Spróbuj jeszcze raz.',missingPrompt:'Jaki symbol ma pierwiastek',oddReason:'Intruz to metal, pozostałe to niemetale.' }
   };
 
   const aiModeLabels = { ru: 'ИИ подключён', pl: 'AI jest podłączone' };
@@ -81,6 +90,8 @@
       $('helpFeedback').textContent = '';
       renderTopicList();
       renderTask();
+      renderElementsTable();
+      if (memoryMode) renderMemory();
     }
 
     async function refreshAiStatus() {
@@ -131,6 +142,7 @@
       document.querySelectorAll('.nav-link').forEach(button => button.classList.toggle('active', button.dataset.view === name));
       window.scrollTo({ top: 0, behavior: 'smooth' });
       if (name === 'practice') setTimeout(() => $('answerInput').focus(), 350);
+      if (name === 'elements') renderMemory();
     }
 
     document.querySelectorAll('[data-view]').forEach(button => button.addEventListener('click', () => switchView(button.dataset.view)));
@@ -188,6 +200,58 @@
       $('feedback').innerHTML = `<b>${t('hintLabel')}</b> ${lang === 'pl' ? tasks[index].hintPl : tasks[index].hint}`;
     });
     $('nextButton').addEventListener('click', () => { index = (index + 1) % tasks.length; renderTask(); $('answerInput').focus(); });
+
+    let memoryIndex = 0;
+    let memoryRevealed = false;
+    let matchSelected = [];
+    let matchSolved = [];
+    let memoryMode = 'flashcards';
+
+    function renderElementsTable() {
+      const query = $('elementSearch').value.trim().toLowerCase();
+      const visible = elements.filter(item => `${item.symbol} ${item.pl} ${item.ru}`.toLowerCase().includes(query));
+      $('elementsCount').textContent = visible.length;
+      $('elementsTableBody').innerHTML = visible.map(item => `<tr><td><b class="element-symbol">${item.symbol}</b></td><td>${item.pl}</td><td>${item.ru}</td></tr>`).join('') || `<tr><td colspan="3" class="empty-state">${lang === 'pl' ? 'Brak wyników.' : 'Ничего не найдено.'}</td></tr>`;
+    }
+
+    function memoryElement(offset = 0) { return elements[(memoryIndex + offset) % elements.length]; }
+
+    function renderMemory() {
+      const game = $('memoryGame');
+      if (!game) return;
+      const item = memoryElement();
+      if (memoryMode === 'flashcards') {
+        game.innerHTML = `<div class="flashcard"><span class="eyebrow">${item.symbol}</span><strong>${memoryRevealed ? (lang === 'pl' ? item.pl : item.ru) : '？'}</strong><small>${memoryRevealed ? (lang === 'pl' ? item.ru : item.pl) : (lang === 'pl' ? 'Najpierw spróbuj przypomnieć sobie nazwę.' : 'Сначала попробуй вспомнить название.')}</small></div><div class="memory-actions"><button class="primary" id="memoryReveal">${memoryRevealed ? t('known') : t('showAnswer')}</button><button class="text-button" id="memoryNext">${memoryRevealed ? t('nextRound') : t('repeat')}</button></div>`;
+        $('memoryReveal').addEventListener('click', () => { if (!memoryRevealed) { memoryRevealed = true; renderMemory(); } else { memoryIndex = (memoryIndex + 1) % elements.length; memoryRevealed = false; renderMemory(); } });
+        $('memoryNext').addEventListener('click', () => { memoryIndex = (memoryIndex + 1) % elements.length; memoryRevealed = false; renderMemory(); });
+      } else if (memoryMode === 'match') {
+        const picks = [memoryElement(0), memoryElement(1), memoryElement(2)];
+        const cards = [...picks.map(x => ({ value:x.symbol, key:x.symbol, label:x.symbol, type:'symbol' })), ...picks.map(x => ({ value:x.symbol, key:x.symbol, label:lang === 'pl' ? x.pl : x.ru, type:'name' }))].sort(() => Math.random() - .5);
+        game.innerHTML = `<p class="memory-instruction">${t('chooseSymbol')}</p><div class="match-grid">${cards.map((card, i) => `<button class="match-card${matchSolved.includes(card.key) ? ' solved' : ''}" data-match="${card.key}" data-type="${card.type}" data-index="${i}">${card.label}</button>`).join('')}</div><p id="memoryFeedback" class="memory-feedback"></p>`;
+        game.querySelectorAll('.match-card:not(.solved)').forEach(button => button.addEventListener('click', () => {
+          if (matchSelected.some(x => x.index === Number(button.dataset.index))) return;
+          button.classList.add('selected'); matchSelected.push({ key:button.dataset.match, type:button.dataset.type, index:Number(button.dataset.index) });
+          if (matchSelected.length === 2) { const [a,b] = matchSelected; const good = a.key === b.key && a.type !== b.type; if (good) { matchSolved.push(a.key); game.querySelectorAll(`[data-match="${a.key}"]`).forEach(x => x.classList.add('solved')); $('memoryFeedback').textContent = t('correct'); } else { $('memoryFeedback').textContent = t('tryAgain'); setTimeout(() => game.querySelectorAll('.selected').forEach(x => x.classList.remove('selected')), 450); } matchSelected = []; if (matchSolved.length === 3) $('memoryFeedback').textContent = `${t('correct')} ${t('nextRound')}`; }
+        }));
+      } else if (memoryMode === 'odd') {
+        const picks = [elements.find(x => x.symbol === 'H'), elements.find(x => x.symbol === 'O'), elements.find(x => x.symbol === 'N'), elements.find(x => x.symbol === 'Na')];
+        game.innerHTML = `<p class="memory-instruction">${t('chooseOdd')}</p><div class="odd-grid">${picks.map(x => `<button class="odd-card" data-symbol="${x.symbol}"><b>${x.symbol}</b><span>${lang === 'pl' ? x.pl : x.ru}</span></button>`).join('')}</div><p id="memoryFeedback" class="memory-feedback"></p>`;
+        game.querySelectorAll('.odd-card').forEach(button => button.addEventListener('click', () => { const good = button.dataset.symbol === 'Na'; $('memoryFeedback').textContent = good ? `${t('correct')} ${t('oddReason')}` : t('tryAgain'); button.classList.toggle('wrong', !good); button.classList.toggle('correct-choice', good); }));
+      } else {
+        const answer = item.symbol;
+        game.innerHTML = `<p class="memory-instruction">${t('missingPrompt')} <b>${lang === 'pl' ? item.pl : item.ru}</b>?</p><div class="missing-row"><input id="missingInput" maxlength="2" autocomplete="off" aria-label="${t('missingPrompt')}"><button class="primary" id="missingCheck">${t('check')}</button></div><p id="memoryFeedback" class="memory-feedback"></p>`;
+        $('missingCheck').addEventListener('click', () => { const good = $('missingInput').value.trim().toLowerCase() === answer.toLowerCase(); $('memoryFeedback').textContent = good ? t('correct') : t('tryAgain'); if (good) { memoryIndex = (memoryIndex + 1) % elements.length; setTimeout(renderMemory, 500); } });
+      }
+    }
+
+    document.querySelectorAll('[data-element-panel]').forEach(button => button.addEventListener('click', () => {
+      const panel = button.dataset.elementPanel;
+      document.querySelectorAll('.element-tab').forEach(item => item.classList.toggle('active', item === button));
+      document.querySelectorAll('.element-panel').forEach(item => { item.hidden = item.id !== `element${panel[0].toUpperCase()}${panel.slice(1)}Panel`; item.classList.toggle('active', !item.hidden); });
+      if (panel === 'memory') renderMemory();
+    }));
+    $('elementSearch').addEventListener('input', renderElementsTable);
+    $('memoryMode').addEventListener('change', event => { memoryMode = event.target.value; matchSelected = []; matchSolved = []; memoryRevealed = false; renderMemory(); });
     $('helpForm').addEventListener('submit', async event => {
       event.preventDefault();
       const question = $('helpQuestion').value.trim();
@@ -225,5 +289,5 @@
   }
 
   if (typeof document !== 'undefined') document.addEventListener('DOMContentLoaded', init);
-  return { tasks, topicGroups, parseAnswer, isCorrect };
+  return { tasks, topicGroups, elements, parseAnswer, isCorrect };
 });

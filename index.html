@@ -24,6 +24,7 @@
       <button class="nav-link active" data-view="lesson" data-i18n="navLesson">Урок</button>
       <button class="nav-link" data-view="practice" data-i18n="navPractice">Тренажёр</button>
       <button class="nav-link" data-view="help" data-i18n="navHelp">Помоги разобраться</button>
+      <button class="nav-link" data-view="elements" data-i18n="navElements">Элементы</button>
       <button class="nav-link" data-view="words" data-i18n="navWords">Словарь</button>
     </nav>
     <div class="language-switch" aria-label="Language / Язык">
@@ -128,6 +129,36 @@
           <ul class="question-tips"><li data-i18n="tipOne">Само условие задачи</li><li data-i18n="tipTwo">Что уже получилось</li><li data-i18n="tipThree">На каком шаге стало непонятно</li></ul>
           <div class="ai-note"><b data-i18n="aiNoteTitle">Важно</b><p data-i18n="aiNoteText">Сейчас это локальный эксперимент. Фото задач подключим после проверки текстового режима.</p></div>
         </aside>
+      </div>
+    </section>
+
+    <section id="elements" class="view" aria-labelledby="elements-title">
+      <div class="section-heading">
+        <div><span class="eyebrow" data-i18n="elementsEyebrow">ХИМИЧЕСКИЕ ЭЛЕМЕНТЫ</span><h1 id="elements-title" data-i18n="elementsTitle">Запоминаем элементы</h1></div>
+        <div class="score"><span data-i18n="elementsCountLabel">В списке</span><strong id="elementsCount">24</strong></div>
+      </div>
+      <div class="elements-shell">
+        <div class="elements-tabs" role="tablist" aria-label="Режимы раздела">
+          <button class="element-tab active" data-element-panel="table" data-i18n="elementsTableTab">Таблица</button>
+          <button class="element-tab" data-element-panel="theory" data-i18n="elementsTheoryTab">Теория</button>
+          <button class="element-tab" data-element-panel="memory" data-i18n="elementsMemoryTab">Запоминание</button>
+        </div>
+        <div id="elementTablePanel" class="element-panel active">
+          <div class="elements-toolbar"><label class="search-field"><span data-i18n="elementsSearchLabel">Поиск</span><input id="elementSearch" type="search" data-i18n-placeholder="elementsSearchPlaceholder" placeholder="Символ или название"></label><p id="elementsHint" class="toolbar-note" data-i18n="elementsTableHint">Сначала смотри на символ, потом произноси название по-польски.</p></div>
+          <div class="elements-table-wrap"><table class="elements-table"><thead><tr><th data-i18n="symbolLabel">Символ</th><th data-i18n="polishNameLabel">По-польски</th><th data-i18n="russianNameLabel">По-русски</th></tr></thead><tbody id="elementsTableBody"></tbody></table></div>
+        </div>
+        <div id="elementTheoryPanel" class="element-panel" hidden>
+          <div class="theory-grid">
+            <article class="theory-card"><span class="card-number">01</span><h2 data-i18n="simpleSubstancesTitle">Substancje proste</h2><p data-i18n="simpleSubstancesText">Простые вещества состоят из атомов одного химического элемента. Примеры: węgiel — углерод, siarka — сера.</p></article>
+            <article class="theory-card"><span class="card-number">02</span><h2 data-i18n="compoundSubstancesTitle">Związki chemiczne</h2><p data-i18n="compoundSubstancesText">Сложные вещества состоят из атомов как минимум двух разных элементов. Примеры: woda — вода, dwutlenek węgla — углекислый газ.</p></article>
+            <article class="theory-card"><span class="card-number">03</span><h2 data-i18n="mixturesTitle">Mieszaniny</h2><p data-i18n="mixturesText">Смесь — это несколько веществ рядом, без превращения их в новое вещество. Например, воздух и чай с сахаром.</p></article>
+            <article class="theory-card theory-note"><span class="card-number">04</span><h2 data-i18n="atomTitle">Atom</h2><p data-i18n="atomText">Атом — очень маленькая частица элемента, сохраняющая его химические свойства.</p><div class="correction-note"><b data-i18n="sourceNoteTitle">Важно про запись в тетради</b><p data-i18n="sourceNoteText">Sól (соль) — это сложное вещество, а не простое. Для простых веществ лучше запомнить углерод и серу.</p></div></article>
+          </div>
+        </div>
+        <div id="elementMemoryPanel" class="element-panel" hidden>
+          <div class="memory-toolbar"><div><span class="eyebrow" data-i18n="memoryEyebrow">МИНИ-ИГРЫ</span><h2 data-i18n="memoryTitle">Тренируем память короткими раундами</h2></div><select id="memoryMode"><option value="flashcards" data-i18n="flashcardsMode">Карточки</option><option value="match" data-i18n="matchMode">Соедини пары</option><option value="odd" data-i18n="oddMode">Найди лишнее</option><option value="missing" data-i18n="missingMode">Вставь пропуск</option></select></div>
+          <div id="memoryGame" class="memory-game"></div>
+        </div>
       </div>
     </section>
 
