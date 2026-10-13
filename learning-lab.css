@@ -33,3 +33,47 @@
 .lesson-question form { display:flex; gap:14px; }.lesson-question input { width:100px; padding:10px; font-size:28px; border:1px solid var(--line); border-radius:12px; text-align:center; }
 body:has(.game-focus) { overflow:hidden; }body:has(.game-focus) .site-header { display:none; }
 @media(max-width:700px) { .lesson-route { grid-template-columns:repeat(2,minmax(0,1fr)); }.mini-lesson { padding:18px; }.mini-lesson h2 { font-size:24px; }.mini-lesson p { font-size:17px; }.lesson-question { padding:16px; }.particle-model { padding:16px; gap:16px; }.molecule>div { gap:4px; }.atom-token { width:48px; height:48px; font-size:22px; }.elements-topic .site-header { position:static; }.elements-topic .site-header nav { width:auto; margin:0; padding:0; border:0; order:initial; }.memory-settings>.game-primary { font-size:16px; } }
+
+/* Slightly more compact exercises; keep text legible and touch targets intact. */
+#elements .memory-game { padding:22px 24px 24px; min-height:420px; }
+#gameContent { max-width:680px; }
+#gameTitle { margin:18px 0; }
+.flashcard-stage { width:min(100%,460px); height:260px; }
+.learning-flip { width:min(100%,460px); height:260px; }
+.game-focus .flashcard-stage,.game-focus .learning-flip { width:min(100%,560px); height:300px; }
+.flip-face { padding:20px; gap:12px; border-radius:20px; }
+.flip-back { gap:8px; }
+.flash-symbol { font-size:clamp(88px,10vw,120px); }
+.answer-symbol { font-size:clamp(64px,8vw,82px); }
+.flash-name { font-size:clamp(26px,4vw,34px); }
+.flash-translation { font-size:19px; }
+.flip-help { margin:18px 0 12px; }
+.pair-board { gap:18px; }
+.pair-tile { min-height:72px; margin-bottom:12px; padding:10px; border-radius:14px; }
+.symbol-tile { font-size:36px; }
+.name-tile { font-size:19px; }
+.choice-board { gap:12px; }
+.choice-tile { min-height:76px; padding:16px; border-radius:14px; }
+.choice-tile strong { font-size:46px; }
+.choice-tile span { font-size:19px; }
+.quiz-symbol { font-size:clamp(72px,10vw,104px); padding:10px 0 20px; }
+.missing-name { margin:20px 0; gap:8px; }
+.missing-name strong { font-size:32px; }
+.symbol-form input { width:120px; height:76px; font-size:42px; }
+.round-result { padding:28px 0; }
+.result-number { font-size:76px; }
+.mini-lesson { max-width:760px; padding:24px; }
+.lesson-question { padding:16px; }
+.lesson-stop { min-height:84px; padding:14px; }
+.particle-model { padding:20px; gap:20px; }
+.task-card { padding:30px; }
+@media(max-width:520px) {
+  #elements .memory-game { padding:16px 12px; min-height:380px; }
+  .flashcard-stage,.learning-flip { height:240px; }
+  .game-focus .flashcard-stage,.game-focus .learning-flip { height:270px; }
+  .flashcard-stage .learning-flip,.game-focus .flashcard-stage .learning-flip { height:100%; }
+  .pair-board { gap:10px; }.pair-tile { min-height:68px; }
+  .choice-tile { padding:14px 10px; }
+  .mini-lesson { padding:16px; }.lesson-question { padding:14px; }
+  .task-card { padding:22px; }
+}

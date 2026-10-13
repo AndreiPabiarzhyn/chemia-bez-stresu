@@ -16,3 +16,9 @@
 .exam-answer-label { display:grid; gap:14px; font-size:18px; }.exam-answer-label input { max-width:320px; padding:14px; border:1px solid var(--line); border-radius:12px; background:var(--white); font-size:24px; color:var(--ink); }
 .exam-review { display:grid; gap:16px; }.exam-correct { color:var(--green); font-weight:700; }.exam-incorrect { color:#90491c; font-weight:700; }
 @media(max-width:520px) { .element-reference-open { flex-direction:column; align-items:flex-start; min-height:155px; }.example-dialog { padding:24px 18px; }.example-art { width:220px; height:220px; }.example-dialog h2 { font-size:24px; }.formula-picker { flex-direction:column; align-items:flex-start; }.formula-count-inputs { gap:14px; }.formula-count-inputs label { min-width:0; flex:1; font-size:15px; }.formula-count-inputs input { width:100%; }.formula-palette { gap:12px; } }
+
+.formula-workspace { min-height:105px; padding:16px; }
+.formula-count-inputs { gap:16px; margin:20px 0; }
+.formula-count-inputs input { padding:10px; }
+.exam-options label { padding:12px 14px; margin-bottom:10px; min-height:52px; }
+.exam-answer-label input { max-width:280px; padding:12px; }
