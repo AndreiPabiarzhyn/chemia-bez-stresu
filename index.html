@@ -11,10 +11,11 @@
   <link rel="stylesheet" href="memory.css">
   <link rel="stylesheet" href="learning-lab.css">
   <link rel="stylesheet" href="extensions.css">
+  <link rel="stylesheet" href="home.css">
 </head>
 <body>
   <header class="site-header">
-    <a class="brand" href="#lesson" data-go="lesson" aria-label="На главную">
+    <a class="brand" href="#home" data-go="home" aria-label="На главную" data-i18n-aria="navHome">
       <span class="brand-mark">C</span>
       <span><strong>Chemia bez stresu</strong><small data-i18n="tagline">7 klasa · объяснения по-русски</small></span>
     </a>
@@ -24,6 +25,7 @@
       <span class="topic-chevron" aria-hidden="true">⌄</span>
     </button>
     <nav aria-label="Разделы" data-i18n-aria="sectionNavLabel">
+      <button class="nav-link" data-view="home" data-i18n="navHome">Все темы</button>
       <button class="nav-link active" data-view="lesson" data-i18n="navLesson">Урок</button>
       <button class="nav-link" data-view="practice" data-i18n="navPractice">Тренажёр</button>
       <button class="nav-link" data-view="help" data-i18n="navHelp">Помоги разобраться</button>
@@ -46,6 +48,15 @@
   </aside>
 
   <main>
+    <section id="home" class="view" aria-labelledby="home-title">
+      <div class="home-welcome"><div><span class="eyebrow" data-i18n="homeEyebrow">ТВОЯ ХИМИЯ · 7 КЛАСС</span><h1 id="home-title" tabindex="-1" data-i18n="homeTitle">Привет, Марго! Что изучим?</h1><p data-i18n="homeIntro">Выбирай тему: сначала понятный пример, потом немного практики. Можно учиться в своём темпе.</p></div><div class="home-emblem" aria-hidden="true"><span>H</span><span>O</span><span>H</span><small>Chemia bez stresu</small></div></div>
+      <article class="home-resume"><div><span class="eyebrow" id="homeResumeLabel">НАЧНЁМ С ЭЛЕМЕНТОВ</span><h2 id="homeResumeTitle">Химические элементы</h2><p id="homeResumeNote"></p></div><button type="button" id="homeContinue" class="game-primary">Начать →</button></article>
+      <div class="home-catalog-head"><h2 data-i18n="homeTopicsTitle">Выбери тему</h2><span id="homeTopicCount"></span></div>
+      <div class="home-filters"><label><span data-i18n="homeSearchLabel">Найти тему</span><input id="homeSearch" type="search" data-i18n-placeholder="homeSearchPlaceholder" placeholder="Например: элементы / pierwiastki"></label><label><span data-i18n="homeGroupLabel">Раздел</span><select id="homeGroup"></select></label></div>
+      <div id="homeTopics" class="home-topics"></div>
+      <p id="homeEmpty" class="home-empty" hidden data-i18n="homeEmpty">Таких тем пока нет. Попробуй другое название или выбери все разделы.</p>
+      <p class="home-storage-note" data-i18n="homeStorageNote">Прогресс хранится в этом браузере. Новые темы будут появляться здесь.</p>
+    </section>
     <section id="lesson" class="view active" aria-labelledby="lesson-title">
       <div class="hero">
         <div class="hero-copy">
@@ -234,10 +245,27 @@
     </section>
   </main>
 
-  <footer><span>Chemia bez stresu</span><span data-i18n="footerText">Материал для 7 класса польской школы</span></footer>
+  <footer><span>Chemia bez stresu</span><button type="button" id="dedicationButton" class="footer-dedication" aria-haspopup="dialog"><span aria-hidden="true">♡</span> <span data-i18n="dedication">Andrei Pasbiarzhyn — для любимой доченьки Марго</span></button><span data-i18n="footerText">Материал для 7 класса польской школы</span></footer>
+  <dialog id="margoDialog" class="margo-dialog" aria-labelledby="margoTitle" aria-describedby="margoMessage">
+    <div id="margoScreenHearts" class="margo-screen-hearts" aria-hidden="true"></div>
+    <div class="margo-card">
+    <button type="button" id="margoClose" class="margo-close" data-i18n-aria="close" aria-label="Закрыть">×</button>
+    <div class="margo-scene" aria-hidden="true">
+      <div id="margoParticles" class="margo-particles"></div>
+      <div class="margo-character"><svg viewBox="0 0 220 200"><path class="margo-heart" d="M110 181C87 160 18 117 18 67C18 17 81 8 110 49C139 8 202 17 202 67C202 117 133 160 110 181Z"/><ellipse cx="65" cy="103" rx="14" ry="8" fill="#ffb4b9"/><ellipse cx="155" cy="103" rx="14" ry="8" fill="#ffb4b9"/><g class="margo-eyes" fill="#542c3b"><ellipse cx="79" cy="85" rx="5" ry="7"/><ellipse cx="141" cy="85" rx="5" ry="7"/></g><path d="M96 104Q110 122 124 104" fill="none" stroke="#542c3b" stroke-width="5" stroke-linecap="round"/><path d="M43 58Q47 42 64 39" fill="none" stroke="#fff" stroke-opacity=".65" stroke-width="8" stroke-linecap="round"/></svg></div>
+      <span class="margo-spark spark-one">✦</span><span class="margo-spark spark-two">♡</span><span class="margo-spark spark-three">✧</span>
+    </div>
+    <p class="margo-eyebrow" data-i18n="margoEyebrow">МАЛЕНЬКИЙ СЮРПРИЗ ДЛЯ ТЕБЯ</p>
+    <h2 id="margoTitle" data-i18n="margoTitle">Марго, ты — моё солнышко!</h2>
+    <p id="margoMessage" data-i18n="margoMessage">Пробуй, ошибайся, открывай новое. У тебя всё получится! Я всегда рядом и очень тебя люблю.</p>
+    <p class="margo-signature">Andrei Pasbiarzhyn <span aria-hidden="true">♡</span></p>
+    <button type="button" id="margoReplay" class="margo-replay" data-i18n="margoReplay">Ещё сердечек!</button>
+    </div>
+  </dialog>
   <script src="memory.js"></script>
   <script src="lessons.js"></script>
   <script src="extensions.js"></script>
+  <script src="home.js"></script>
   <script src="app.js"></script>
 </body>
 </html>

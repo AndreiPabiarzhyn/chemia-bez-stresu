@@ -58,6 +58,12 @@
   };
 
   const aiModeLabels = { ru: 'ИИ подключён', pl: 'AI jest podłączone' };
+  Object.assign(uiTranslations.ru,{navHome:'Все темы',homeEyebrow:'ТВОЯ ХИМИЯ · 7 КЛАСС',homeTitle:'Привет, Марго! Что изучим?',homeIntro:'Выбирай тему: сначала понятный пример, потом немного практики. Можно учиться в своём темпе.',homeTopicsTitle:'Выбери тему',homeSearchLabel:'Найти тему',homeSearchPlaceholder:'Например: элементы / pierwiastki',homeGroupLabel:'Раздел',homeEmpty:'Таких тем пока нет. Попробуй другое название или выбери все разделы.',homeStorageNote:'Прогресс хранится в этом браузере. Новые темы будут появляться здесь.'});
+  Object.assign(uiTranslations.pl,{navHome:'Wszystkie tematy',homeEyebrow:'TWOJA CHEMIA · KLASA 7',homeTitle:'Cześć, Margo! Czego się nauczymy?',homeIntro:'Wybierz temat: najpierw prosty przykład, potem trochę ćwiczeń. Ucz się we własnym tempie.',homeTopicsTitle:'Wybierz temat',homeSearchLabel:'Znajdź temat',homeSearchPlaceholder:'Na przykład: gęstość / плотность',homeGroupLabel:'Dział',homeEmpty:'Nie ma jeszcze takich tematów. Spróbuj innej nazwy lub wybierz wszystkie działy.',homeStorageNote:'Postępy zapisują się w tej przeglądarce. Nowe tematy będą pojawiać się tutaj.'});
+  Object.assign(uiTranslations.ru,{dedication:'Andrei Pasbiarzhyn — для любимой доченьки Марго'});
+  Object.assign(uiTranslations.pl,{dedication:'Andrei Pasbiarzhyn — dla ukochanej córeczki Margo'});
+  Object.assign(uiTranslations.ru,{margoEyebrow:'МАЛЕНЬКИЙ СЮРПРИЗ ДЛЯ ТЕБЯ',margoTitle:'Марго, ты — моё солнышко!',margoMessage:'Пробуй, ошибайся, открывай новое. У тебя всё получится! Я всегда рядом и очень тебя люблю.',margoReplay:'Ещё сердечек!'});
+  Object.assign(uiTranslations.pl,{margoEyebrow:'MAŁA NIESPODZIANKA DLA CIEBIE',margoTitle:'Margo, jesteś moim słoneczkiem!',margoMessage:'Próbuj, popełniaj błędy, odkrywaj nowe rzeczy. Dasz radę! Zawsze jestem obok i bardzo Cię kocham.',margoReplay:'Jeszcze więcej serduszek!'});
   Object.assign(uiTranslations.ru,{elementsTableTab:'Справочник',elementsMemoryTab:'Практика',memoryTitle:'Выбери игру или учись по шагам'});
   Object.assign(uiTranslations.pl,{elementsTableTab:'Ściąga',elementsMemoryTab:'Ćwiczenia',memoryTitle:'Wybierz grę lub ucz się krok po kroku'});
   Object.assign(uiTranslations.ru,{formulasTab:'Формулы',examTab:'Контрольная PL',elementsTableHint:'Нажми на элемент: увидишь, где он встречается в жизни.'});
@@ -99,6 +105,7 @@
       lessonsTrainer.render();
       extrasTrainer.render();
       updateTopicLabel();
+      renderHome();
     }
 
     async function refreshAiStatus() {
@@ -144,7 +151,9 @@
       document.body.classList.remove('menu-open');
     }
 
-    function switchView(name) {
+    const validViews = ['home','elements','lesson','practice','words','help'];
+    function switchView(name, syncUrl = true) {
+      if (!validViews.includes(name)) name='home';
       document.querySelectorAll('.view').forEach(view => view.classList.toggle('active', view.id === name));
       document.querySelectorAll('.nav-link').forEach(button => button.classList.toggle('active', button.dataset.view === name));
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -153,14 +162,55 @@
       updateTopicLabel();
       renderTopicList();
       document.body.classList.toggle('elements-topic',name==='elements');
+      document.body.classList.toggle('home-topic',name==='home');
+      if (name==='home') renderHome();
+      else if(name!=='help'){try{localStorage.setItem('chemia-last-view',name);}catch{}}
+      if(syncUrl && location.hash!==`#${name}`) history.pushState(null,'',`#${name}`);
+      if(name==='home') $('home-title').focus({preventScroll:true});
     }
 
     function updateTopicLabel() {
-      $('topicMenuButton').querySelector('strong').textContent = document.querySelector('.view.active')?.id === 'elements' ? t('navElements') : t('currentTopic');
+      const view=document.querySelector('.view.active')?.id;
+      $('topicMenuButton').querySelector('strong').textContent = view==='home' ? t('navHome') : view==='help' ? t('navHelp') : view==='elements' ? t('navElements') : t('currentTopic');
+      document.title = `Chemia bez stresu — ${view==='home'?t('navHome'):view==='elements'?t('navElements'):view==='help'?t('navHelp'):t('currentTopic')}`;
     }
 
+    const homeText=(ru,pl)=>lang==='pl'?pl:ru;
+    function readHomeData(key,fallback){try{return JSON.parse(localStorage.getItem(key)||'null')??fallback;}catch{return fallback;}}
+    function renderHome(){
+      const groupValue=$('homeGroup').value||'all';
+      $('homeGroup').innerHTML=`<option value="all">${homeText('Все разделы','Wszystkie działy')}</option>`+topicGroups.map((g,i)=>`<option value="${i}">${lang==='pl'?g.titlePl:g.titleRu}</option>`).join('');
+      $('homeGroup').value=groupValue;
+      const topics=ChemistryHome.filterTopics(topicGroups,$('homeSearch').value,groupValue);
+      const ready=topics.filter(t=>t.available), future=topics.filter(t=>!t.available);
+      const verified=ChemistryHome.verifiedCount(elements,readHomeData('chemia-lab-stats',{}));
+      const passed=readHomeData('chemia-mini-lessons',{}).passed;
+      const checkCount=Array.isArray(passed)?new Set(passed.filter(k=>/^\d-\d$/.test(k))).size:0;
+      let last='';try{last=localStorage.getItem('chemia-last-view')||'';}catch{}
+      const lastValid=['elements','lesson','practice','words'].includes(last), isElements=!lastValid||last==='elements';
+      const topic=topicGroups.flatMap(g=>g.topics).find(t=>t.id===(isElements?'elements':'density'));
+      const panel=localStorage.getItem('chemia-lab-panel')||'theory';
+      const panelNames={table:['Справочник','Ściąga'],theory:['Теория','Teoria'],memory:['Практика','Ćwiczenia'],formulas:['Формулы','Wzory'],exam:['Контрольная PL','Sprawdzian PL']};
+      $('homeResumeLabel').textContent=lastValid?homeText('ПРОДОЛЖИМ С ТОГО ЖЕ МЕСТА','WRÓĆ DO NAUKI'):homeText('НАЧНЁМ С ЭЛЕМЕНТОВ','ZACZNIJMY OD PIERWIASTKÓW');
+      $('homeResumeTitle').textContent=lang==='pl'?topic.titlePl:topic.titleRu;
+      $('homeResumeNote').textContent=isElements?`${homeText(...(panelNames[panel]||panelNames.theory))} · ${homeText('Проверено без подсказок','Sprawdzone bez podpowiedzi')}: ${verified} / 24`:homeText('Масса, объём и задачи по шагам','Masa, objętość i zadania krok po kroku');
+      $('homeContinue').textContent=lastValid?homeText('Продолжить →','Kontynuuj →'):homeText('Начать →','Zacznij →');
+      $('homeContinue').dataset.target=lastValid?last:'elements';
+      const card=t=>`<article class="home-topic-card" data-topic-id="${t.id}"><div class="home-card-top"><span class="home-topic-symbol" aria-hidden="true">${({density:'ρ',elements:'Fe',states:'≋',atoms:'O',reactions:'→',equations:'='})[t.id]||t.number}</span><span class="home-badge">${t.available?homeText('Можно изучать','Dostępny'):homeText('Скоро','Wkrótce')}</span></div><span class="home-topic-group">${lang==='pl'?t.groupPl:t.groupRu}</span><h3>${lang==='pl'?t.titlePl:t.titleRu}</h3><p>${lang==='pl'?t.notePl:t.noteRu}</p>${t.id==='elements'?`<p class="home-progress">${homeText('Без подсказок','Bez podpowiedzi')}: ${verified} / 24 · ${homeText('Проверки в мини-уроках','Zadania w mini-lekcjach')}: ${checkCount} / 9</p>`:''}${t.available?`<button class="game-secondary" data-home-topic="${t.id}">${homeText('Открыть тему','Otwórz temat')} →</button>`:''}</article>`;
+      const expanded=$('homeTopics').querySelector('details')?.open||Boolean($('homeSearch').value.trim());
+      $('homeTopics').innerHTML=`<div class="home-topic-grid">${ready.map(card).join('')}</div>${future.length?`<details class="home-future" ${expanded?'open':''}><summary>${homeText('Будущие темы','Nadchodzące tematy')} · ${future.length}</summary><div class="home-topic-grid">${future.map(card).join('')}</div></details>`:''}`;
+      $('homeTopicCount').textContent=`${homeText('Доступно','Dostępne')}: ${ready.length} · ${homeText('Скоро','Wkrótce')}: ${future.length}`;
+      $('homeEmpty').hidden=topics.length>0;
+      $('homeTopics').querySelectorAll('[data-home-topic]').forEach(button=>button.addEventListener('click',()=>switchView(button.dataset.homeTopic==='elements'?'elements':'lesson')));
+    }
+    $('homeSearch').addEventListener('input',renderHome);
+    $('homeGroup').addEventListener('change',renderHome);
+    $('homeContinue').addEventListener('click',()=>switchView($('homeContinue').dataset.target));
+    window.addEventListener('popstate',()=>switchView(location.hash.slice(1),false));
+    window.addEventListener('hashchange',()=>switchView(location.hash.slice(1),false));
+
     document.querySelectorAll('[data-view]').forEach(button => button.addEventListener('click', () => switchView(button.dataset.view)));
-    document.querySelectorAll('[data-go]').forEach(button => button.addEventListener('click', () => switchView(button.dataset.go)));
+    document.querySelectorAll('[data-go]').forEach(button => button.addEventListener('click', event => {event.preventDefault();switchView(button.dataset.go);}));
     document.querySelectorAll('[data-lang]').forEach(button => button.addEventListener('click', () => { lang = button.dataset.lang; localStorage.setItem('chemia-lang', lang); applyLanguage(); }));
     $('topicMenuButton').addEventListener('click', () => $('topicPanel').hidden ? openTopicMenu() : closeTopicMenu());
     $('topicMenuClose').addEventListener('click', closeTopicMenu);
@@ -277,11 +327,55 @@
     function escapeHtml(text) {
       return String(text).replace(/[&<>"']/g, character => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[character]));
     }
+    const margoDialog = $('margoDialog');
+    let margoCelebrationTimer;
+    function celebrateMargo() {
+      const particles = $('margoParticles');
+      particles.replaceChildren();
+      const screenHearts = $('margoScreenHearts');
+      screenHearts.replaceChildren();
+      clearTimeout(margoCelebrationTimer);
+      margoDialog.classList.add('celebrating');
+      const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      for(let i=0;i<(reducedMotion?16:72);i++){
+        const heart=document.createElement('span');
+        heart.className='margo-screen-heart';
+        heart.textContent=i%4===0?'♡':'♥';
+        heart.style.setProperty('--left',`${(i%12+.25+Math.random()*.5)/12*100}%`);
+        heart.style.setProperty('--top',`${(Math.floor(i/12)+Math.random())/6*100}%`);
+        heart.style.setProperty('--size',`${55+Math.random()*95}px`);
+        heart.style.setProperty('--drift',`${Math.random()*120-60}px`);
+        heart.style.setProperty('--delay',`${Math.random()*1.5}s`);
+        heart.style.setProperty('--tilt',`${Math.random()*40-20}deg`);
+        heart.style.color=['#ed7495','#e74d82','#f59eb6','#d86298'][i%4];
+        screenHearts.append(heart);
+      }
+      margoCelebrationTimer=setTimeout(()=>{margoDialog.classList.remove('celebrating');screenHearts.replaceChildren();},8000);
+      if (reducedMotion) return;
+      for (let i = 0; i < 48; i++) {
+        const particle = document.createElement('span');
+        const angle = (Math.PI * 2 * i) / 48;
+        const distance = 95 + Math.random() * 65;
+        particle.className = 'margo-particle';
+        particle.textContent = i % 3 === 0 ? '✦' : '♥';
+        particle.style.setProperty('--tx', `${Math.cos(angle) * distance}px`);
+        particle.style.setProperty('--ty', `${Math.sin(angle) * distance}px`);
+        particle.style.setProperty('--rot', `${Math.random() * 90 - 45}deg`);
+        particle.style.color = ['#dc6381','#e7b94c','#71a99a'][i % 3];
+        particle.addEventListener('animationend', () => particle.remove(), {once:true});
+        particles.append(particle);
+      }
+    }
+    $('dedicationButton').addEventListener('click', () => { margoDialog.showModal(); document.body.classList.add('margo-open'); celebrateMargo(); });
+    $('margoReplay').addEventListener('click', celebrateMargo);
+    $('margoClose').addEventListener('click', () => margoDialog.close());
+    margoDialog.addEventListener('click', event => { if(event.target === margoDialog) margoDialog.close(); });
+    margoDialog.addEventListener('close', () => { clearTimeout(margoCelebrationTimer); margoDialog.classList.remove('celebrating'); document.body.classList.remove('margo-open'); $('margoParticles').replaceChildren(); $('margoScreenHearts').replaceChildren(); $('dedicationButton').focus(); });
     applyLanguage();
-    switchView('elements');
     let startingPanel='theory';
     try{const stored=localStorage.getItem('chemia-lab-panel');if(['theory','memory','table','formulas','exam'].includes(stored))startingPanel=stored;}catch{}
     document.querySelector(`[data-element-panel="${startingPanel}"]`).click();
+    switchView(location.hash.slice(1)||'home',false);
     refreshAiStatus();
   }
 
